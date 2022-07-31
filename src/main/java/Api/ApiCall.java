@@ -48,20 +48,21 @@ public class ApiCall {
                     }
                 }
 
-                System.out.println("AIRCRAFT: ");
-                if(!vuelo.getAircraft().isNull()) {
-                    System.out.println(vuelo.getAircraft().get("registration").asText() + " " + vuelo.getAircraft().get("iata").asText() + " " + vuelo.getAircraft().get("icao").asText() + " " + vuelo.getAircraft().get("icao24").asText());
-                }
-
-                System.out.println("LIVE: ");
-                if(!vuelo.getLive().isNull()) {
-                    System.out.println(vuelo.getLive().get("updated").asText() + " " + vuelo.getLive().get("latitude").asText() + " " + vuelo.getLive().get("longitude").asText() + " " + vuelo.getLive().get("altitude").asText() + " " + vuelo.getLive().get("direction").asText() + " " + vuelo.getLive().get("speed_horizontal").asText() + " " + vuelo.getLive().get("speed_vertical").asText() + " " + vuelo.getLive().get("is_ground").asText());
-                }
+            } else {
+                System.out.println("Error response = " + responseBody);
+                throw new Exception("Error en la llamada a la API");
             }
-        } else {
-            System.out.println("Error response = " + responseBody);
-            throw new Exception("Error en la llamada a la API");
         }
+        return vuelosTotales;
+    }
+
+    Boolean vueloYaExiste(List<Vuelo> vuelos, Vuelo vuelo) {
+        for (int i = 0; i < vuelos.size(); i++) {
+            if (vuelo.getFlight().get("icao").asText().equals(vuelos.get(i).getFlight().get("icao").asText())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
 

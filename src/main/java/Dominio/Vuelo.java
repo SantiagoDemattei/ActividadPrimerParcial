@@ -2,7 +2,7 @@ package Dominio;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-public class Vuelo {
+public class Vuelo implements Cloneable {
     private String flight_date;
     private String flight_status;
     JsonNode departure;
