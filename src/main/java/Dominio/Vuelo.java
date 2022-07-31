@@ -12,6 +12,16 @@ public class Vuelo {
     JsonNode aircraft;
     JsonNode live;
 
+    public Vuelo clonar(){
+        Vuelo vuelo = null;
+        try {
+            vuelo = (Vuelo) clone();
+        } catch (CloneNotSupportedException e){
+            e.printStackTrace();
+        }
+        return vuelo;
+    }
+
     public String getFlight_date(){return flight_date;}
     public String getFlight_status(){return flight_status;}
     public JsonNode getDeparture(){return departure;}

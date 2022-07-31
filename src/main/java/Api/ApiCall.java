@@ -5,35 +5,69 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javax.ws.rs.core.Response;
 import Dominio.Vuelo;
+import java.util.*;
 
 public class ApiCall {
-    String TOKEN = "77b465ab5543970d6d2701b01652e0fd";
+    String TOKEN = "3539e16897803db7bf23d9560a018ee7";
     String PARAMETRO = "flights";
 
-    private void setPARAMETRO(String param) {
-        this.PARAMETRO = param;
+    public List<Vuelo> consultarVuelos() throws Exception {
+        List<Vuelo> vuelosTotales = new ArrayList<>();
+
+        for(int i = 0; i < 8; i++) {
+
+            Random r = new Random();
+            int low = 10;
+            int high = 100;
+            int result = r.nextInt(high-low) + low;
+
+            Vuelo[] vuelos;
+            String incremento = String.valueOf(result);
+            Integer inc = incremento.length();
+
+            WebClient client = WebClient.create("http://api.aviationstack.com/v1/" + PARAMETRO + "?offset=" + result + "&access_key=" + TOKEN);
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+            Response response = client
+                    .header("Content-Type", "application/json")
+                    .get();
+
+            int Status = response.getStatus();
+            //System.out.println("Status: " + Status);
+            String responseBody = response.readEntity(String.class);
+
+            if (Status == 200) {
+                responseBody = responseBody.substring(72 + inc);
+                //System.out.println("response = " + responseBody);
+
+                vuelos = mapper.readValue(responseBody, Vuelo[].class);
+                for(int j = 0 ; j < vuelos.length; j++){
+                    if(!vueloYaExiste(vuelosTotales, vuelos[j])){
+                        vuelosTotales.add(vuelos[j]);
+                    }
+                }
+
+                System.out.println("AIRCRAFT: ");
+                if(!vuelo.getAircraft().isNull()) {
+                    System.out.println(vuelo.getAircraft().get("registration").asText() + " " + vuelo.getAircraft().get("iata").asText() + " " + vuelo.getAircraft().get("icao").asText() + " " + vuelo.getAircraft().get("icao24").asText());
+                }
+
+                System.out.println("LIVE: ");
+                if(!vuelo.getLive().isNull()) {
+                    System.out.println(vuelo.getLive().get("updated").asText() + " " + vuelo.getLive().get("latitude").asText() + " " + vuelo.getLive().get("longitude").asText() + " " + vuelo.getLive().get("altitude").asText() + " " + vuelo.getLive().get("direction").asText() + " " + vuelo.getLive().get("speed_horizontal").asText() + " " + vuelo.getLive().get("speed_vertical").asText() + " " + vuelo.getLive().get("is_ground").asText());
+                }
+            }
+        } else {
+            System.out.println("Error response = " + responseBody);
+            throw new Exception("Error en la llamada a la API");
+        }
     }
+}
 
-    public void consultarVuelos() throws Exception {
 
-        WebClient client = WebClient.create("http://api.aviationstack.com/v1/" + PARAMETRO + "?access_key=" + TOKEN);
 
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-        Response response = client
-                .header("Content-Type", "application/json")
-                .get();
-
-        int Status = response.getStatus();
-        System.out.println("Status: " + Status);
-        String responseBody = response.readEntity(String.class);
-        if (Status == 200) {
-            responseBody = responseBody.substring(73);
-            System.out.println("response = " + responseBody);
-
-            Vuelo[] vuelos = mapper.readValue(responseBody, Vuelo[].class);
-
+/*
             for (int i=0; i < vuelos.length; i++) {
                 Vuelo vuelo = vuelos[i];
                 System.out.println("                                VUELO: " + i);
@@ -71,9 +105,5 @@ public class ApiCall {
                     System.out.println(vuelo.getLive().get("updated").asText() + " " + vuelo.getLive().get("latitude").asText() + " " + vuelo.getLive().get("longitude").asText() + " " + vuelo.getLive().get("altitude").asText() + " " + vuelo.getLive().get("direction").asText() + " " + vuelo.getLive().get("speed_horizontal").asText() + " " + vuelo.getLive().get("speed_vertical").asText() + " " + vuelo.getLive().get("is_ground").asText());
                 }
             }
-        } else {
-            System.out.println("Error response = " + responseBody);
-            throw new Exception("Error en la llamada a la API");
-        }
-    }
-}
+
+             */
