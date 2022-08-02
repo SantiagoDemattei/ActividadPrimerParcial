@@ -145,7 +145,6 @@ public class Vuelo implements Cloneable {
             live.setLive_speed_vertical(liveNode.get("speed_vertical").asText());
             live.setLive_is_ground(liveNode.get("is_ground").asText());
 
-
         } else {
             this.live = null;
             this.liveNode = null;
