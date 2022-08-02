@@ -20,7 +20,7 @@ public class ConsultarPorAeropuertoDestino extends Consultar{
         List<Vuelo> vuelosFiltrados = new ArrayList<>();
         for(int i = 0; i < vuelos.size(); i++){
             Vuelo v = vuelos.get(i);
-            if(v.getArrival().get("airport").asText().equals(a)){
+            if(v.getArrival().getArrival_airport().equals(a)){
                 vuelosFiltrados.add(v);
             }
         }

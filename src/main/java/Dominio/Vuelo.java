@@ -1,16 +1,29 @@
 package Dominio;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
-
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 public class Vuelo implements Cloneable {
     private String flight_date;
     private String flight_status;
-    JsonNode departure;
-    JsonNode arrival;
-    JsonNode airline;
-    JsonNode flight;
-    JsonNode aircraft;
-    JsonNode live;
+    Departure departure;
+    JsonNode departureNode;
+
+    Arrival arrival;
+    JsonNode arrivalNode;
+
+    Airline airline;
+    JsonNode airlineNode;
+
+    Flight flight;
+    JsonNode flightNode;
+
+    Aircraft aircraft;
+    JsonNode aircraftNode;
+
+    Live live;
+    JsonNode liveNode;
 
     public Vuelo clonar(){
         Vuelo vuelo = null;
@@ -24,21 +37,120 @@ public class Vuelo implements Cloneable {
 
     public String getFlight_date(){return flight_date;}
     public String getFlight_status(){return flight_status;}
-    public JsonNode getDeparture(){return departure;}
-    public JsonNode getArrival(){return arrival;}
-    public JsonNode getAirline(){return airline;}
-    public JsonNode getFlight(){return flight;}
-    public JsonNode getAircraft(){return aircraft;}
-    public JsonNode getLive(){return live;}
+    public Departure getDeparture(){return departure;}
+    public Arrival getArrival(){return arrival;}
+    public Airline getAirline(){return airline;}
+    public Flight getFlight(){return flight;}
+    public Aircraft getAircraft(){return aircraft;}
+    public Live getLive(){return live;}
 
     public void setFlight_date(String f){this.flight_date = f;}
     public void setFlight_status(String f){this.flight_status = f;}
-    public void setDeparture(JsonNode n){this.departure = n;}
-    public void setArrival(JsonNode n){this.arrival = n;}
-    public void setAirline(JsonNode n){this.airline = n;}
-    public void setFlight(JsonNode n){this.flight = n;}
-    public void setAircraft(JsonNode n){this.aircraft = n;}
-    public void setLive(JsonNode n){this.live = n;}
+    public void setDeparture(JsonNode n) throws JsonProcessingException {
+        if(!n.isNull()){
+            this.departure = new Departure();
+            departureNode = n;
+            departure.setDeparture_airport(departureNode.get("airport").asText());
+            departure.setDeparture_timezone(departureNode.get("timezone").asText());
+            departure.setDeparture_iata(departureNode.get("iata").asText());
+            departure.setDeparture_iaco(departureNode.get("icao").asText());
+            departure.setDeparture_terminal(departureNode.get("terminal").asText());
+            departure.setDeparture_gate(departureNode.get("gate").asText());
+            departure.setDeparture_delay(departureNode.get("delay").asText());
+            departure.setDeparture_scheduled(departureNode.get("scheduled").asText());
+            departure.setDeparture_estimated(departureNode.get("estimated").asText());
+            departure.setDeparture_actual(departureNode.get("actual").asText());
+            departure.setDeparture_estimated_runway(departureNode.get("estimated_runway").asText());
+            departure.setDeparture_actual_runway(departureNode.get("actual_runway").asText());
+        } else {
+            this.departure = null;
+            this.departureNode = null;
+        }
+    }
+    public void setArrival(JsonNode n) throws JsonProcessingException {
+        if(!n.isNull()){
+            this.arrival = new Arrival();
+            arrivalNode = n;
+            arrival.setArrival_airport(arrivalNode.get("airport").asText());
+            arrival.setArrival_timezone(arrivalNode.get("timezone").asText());
+            arrival.setArrival_iata(arrivalNode.get("iata").asText());
+            arrival.setArrival_iaco(arrivalNode.get("icao").asText());
+            arrival.setArrival_terminal(arrivalNode.get("terminal").asText());
+            arrival.setArrival_gate(arrivalNode.get("gate").asText());
+            arrival.setArrival_baggage(arrivalNode.get("baggage").asText());
+            arrival.setArrival_delay(arrivalNode.get("delay").asText());
+            arrival.setArrival_scheduled(arrivalNode.get("scheduled").asText());
+            arrival.setArrival_estimated(arrivalNode.get("estimated").asText());
+            arrival.setArrival_actual(arrivalNode.get("actual").asText());
+            arrival.setArrival_estimated_runway(arrivalNode.get("estimated_runway").asText());
+            arrival.setArrival_actual_runway(arrivalNode.get("actual_runway").asText());
+
+        } else {
+            this.arrival = null;
+            this.arrivalNode = null;
+        }
+
+    }
+    public void setAirline(JsonNode n) throws JsonProcessingException {
+        if(!n.isNull()){
+            this.airline = new Airline();
+            airlineNode = n;
+            airline.setAirline_name(airlineNode.get("name").asText());
+            airline.setAirline_iata(airlineNode.get("iata").asText());
+            airline.setAirline_icao(airlineNode.get("icao").asText());
+        }
+        else {
+            this.airline = null;
+            this.airlineNode = null;
+        }
+    }
+    public void setFlight(JsonNode n) throws JsonProcessingException {
+        if(!n.isNull()){
+            this.flight = new Flight();
+            flightNode = n;
+            flight.setFlight_number(flightNode.get("number").asText());
+            flight.setFlight_iata(flightNode.get("iata").asText());
+            flight.setFlight_icao(flightNode.get("icao").asText());
+            flight.setFlight_codeshared(flightNode.get("codeshared").asText());
+
+        } else {
+            this.flight = null;
+            this.flightNode = null;
+        }
+    }
+    public void setAircraft(JsonNode n) throws JsonProcessingException {
+        if(!n.isNull()){
+            this.aircraft = new Aircraft();
+            aircraftNode = n;
+            aircraft.setAircraft_registration(aircraftNode.get("registration").asText());
+            aircraft.setAircraft_iata(aircraftNode.get("iata").asText());
+            aircraft.setAircraft_icao(aircraftNode.get("icao").asText());
+            aircraft.setAircraft_icao24(aircraftNode.get("icao24").asText());
+
+        } else {
+            this.aircraft = null;
+            this.aircraftNode = null;
+        }
+    }
+    public void setLive(JsonNode n) throws JsonProcessingException {
+        if(!n.isNull()){
+            this.live = new Live();
+            liveNode = n;
+            live.setLive_updated(liveNode.get("updated").asText());
+            live.setLive_latitude(liveNode.get("latitude").asText());
+            live.setLive_longitude(liveNode.get("longitude").asText());
+            live.setLive_altitude(liveNode.get("altitude").asText());
+            live.setLive_direction(liveNode.get("direction").asText());
+            live.setLive_speed_horizontal(liveNode.get("speed_horizontal").asText());
+            live.setLive_speed_vertical(liveNode.get("speed_vertical").asText());
+            live.setLive_is_ground(liveNode.get("is_ground").asText());
+
+
+        } else {
+            this.live = null;
+            this.liveNode = null;
+        }
+    }
 
 
 

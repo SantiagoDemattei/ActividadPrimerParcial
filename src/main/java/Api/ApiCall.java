@@ -58,7 +58,7 @@ public class ApiCall {
 
     Boolean vueloYaExiste(List<Vuelo> vuelos, Vuelo vuelo) {
         for (int i = 0; i < vuelos.size(); i++) {
-            if (vuelo.getFlight().get("icao").asText().equals(vuelos.get(i).getFlight().get("icao").asText())) {
+            if (vuelo.getFlight().getFlight_icao().equals(vuelos.get(i).getFlight().getFlight_icao())) {
                 return true;
             }
         }

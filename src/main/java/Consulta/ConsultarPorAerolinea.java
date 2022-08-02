@@ -19,7 +19,7 @@ public class ConsultarPorAerolinea extends Consultar{
         List<Vuelo> vuelosFiltrados = new ArrayList<>();
         for(int i = 0; i < vuelos.size(); i++){
             Vuelo v = vuelos.get(i);
-            if(v.getAirline().get("name").asText().equals(aerolinea)){
+            if(v.getAirline().getAirline_name().equals(aerolinea)){
                 vuelosFiltrados.add(v);
             }
         }

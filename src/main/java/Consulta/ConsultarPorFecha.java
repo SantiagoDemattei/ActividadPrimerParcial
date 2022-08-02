@@ -1,7 +1,6 @@
 package Consulta;
 
 import Dominio.Vuelo;
-
 import java.util.*;
 
 public class ConsultarPorFecha extends Consultar{
@@ -18,7 +17,7 @@ public class ConsultarPorFecha extends Consultar{
         List<Vuelo> vuelosFiltrados = new ArrayList<>();
         for(int i = 0; i < vuelos.size(); i++){
             Vuelo v = vuelos.get(i);
-            if(v.getArrival().get("scheduled").asText().equals(date)){
+            if(v.getArrival().getArrival_scheduled().equals(date)){
                 vuelosFiltrados.add(v);
             }
         }
