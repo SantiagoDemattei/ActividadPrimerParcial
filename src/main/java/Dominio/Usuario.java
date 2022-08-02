@@ -67,9 +67,42 @@ public class Usuario {
     }
 
     public void cargarVueloNuevo(Vuelo prototipo, String numVuelo, String puertaEmbarque){
-        Vuelo vueloClonado = prototipo.clonar();
-        vueloClonado.getFlight().setFlight_number(numVuelo);
-        vueloClonado.getDeparture().setDeparture_gate(puertaEmbarque);
+        Vuelo vuelo = prototipo.clonar();
+        vuelo.getFlight().setFlight_number(numVuelo);
+        vuelo.getDeparture().setDeparture_gate(puertaEmbarque);
+
+        System.out.println("DATA: ");
+        System.out.println(vuelo.getFlight_date() + " " + vuelo.getFlight_status());
+
+        if(vuelo.getDeparture() != null) {
+            System.out.println("DEPARTURE: ");
+            System.out.println(vuelo.getDeparture().getDeparture_airport() + " " + vuelo.getDeparture().getDeparture_timezone() + " " + vuelo.getDeparture().getDeparture_iata() + " " + vuelo.getDeparture().getDeparture_iaco() + " " + vuelo.getDeparture().getDeparture_terminal() + " " + vuelo.getDeparture().getDeparture_gate() + " " + vuelo.getDeparture().getDeparture_delay() + " " + vuelo.getDeparture().getDeparture_scheduled() + " " + vuelo.getDeparture().getDeparture_estimated() + " " + vuelo.getDeparture().getDeparture_actual() + " " + vuelo.getDeparture().getDeparture_estimated_runway() + " " + vuelo.getDeparture().getDeparture_actual_runway());
+        }
+
+        if(vuelo.getArrival() != null){
+            System.out.println("ARRIVAL: ");
+            System.out.println(vuelo.getArrival().getArrival_airport() + " " + vuelo.getArrival().getArrival_timezone() + " " + vuelo.getArrival().getArrival_iata() + " " + vuelo.getArrival().getArrival_iaco() + " " + vuelo.getArrival().getArrival_terminal() + " " + vuelo.getArrival().getArrival_gate() + " " + vuelo.getArrival().getArrival_baggage() + " " + vuelo.getArrival().getArrival_delay() + " " + vuelo.getArrival().getArrival_scheduled() + " " + vuelo.getArrival().getArrival_estimated() + " " + vuelo.getArrival().getArrival_actual() + " " + vuelo.getArrival().getArrival_estimated_runway() + " " + vuelo.getArrival().getArrival_actual_runway());
+        }
+
+        if(vuelo.getAirline() != null) {
+            System.out.println("AIRLINE: ");
+            System.out.println(vuelo.getAirline().getAirline_name() + " " + vuelo.getAirline().getAirline_iata() + " " + vuelo.getAirline().getAirline_icao());
+        }
+
+        if(vuelo.getFlight() != null) {
+            System.out.println("FLIGHT: ");
+            System.out.println(vuelo.getFlight().getFlight_number() + " " + vuelo.getFlight().getFlight_iata() + " " + vuelo.getFlight().getFlight_icao() + " " + vuelo.getFlight().getFlight_codeshared());
+        }
+
+        if(vuelo.getAircraft() != null) {
+            System.out.println("AIRCRAFT: ");
+            System.out.println(vuelo.getAircraft().getAircraft_registration() + " " + vuelo.getAircraft().getAircraft_iata() + " " + vuelo.getAircraft().getAircraft_icao() + " " + vuelo.getAircraft().getAircraft_icao24());
+        }
+
+        if(vuelo.getLive() != null) {
+            System.out.println("LIVE: ");
+            System.out.println(vuelo.getLive().getLive_updated() + " " + vuelo.getLive().getLive_latitude() + " " + vuelo.getLive().getLive_longitude() + " " + vuelo.getLive().getLive_altitude() + " " + vuelo.getLive().getLive_direction() + " " + vuelo.getLive().getLive_speed_horizontal() + " " + vuelo.getLive().getLive_speed_vertical() + " " + vuelo.getLive().getLive_is_ground());
+        }
     }
 
 }

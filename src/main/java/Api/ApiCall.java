@@ -47,7 +47,6 @@ public class ApiCall {
                         vuelosTotales.add(vuelos[j]);
                     }
                 }
-
             } else {
                 System.out.println("Error response = " + responseBody);
                 throw new Exception("Error en la llamada a la API");
