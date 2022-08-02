@@ -11,7 +11,6 @@ public class ConsultarPorAerolinea extends Consultar{
         List<Vuelo> vuelosFiltrados;
         vuelos = super.filtrar(b);
         vuelosFiltrados = filtrarPorAerolinea(vuelos, b.getAerolinea());
-
         return vuelosFiltrados;
     }
 

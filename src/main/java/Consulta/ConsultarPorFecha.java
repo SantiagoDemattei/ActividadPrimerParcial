@@ -9,7 +9,6 @@ public class ConsultarPorFecha extends Consultar{
         List<Vuelo> vuelosFiltrados;
         vuelos = super.filtrar(b);
         vuelosFiltrados = filtrarPorFecha(vuelos, b.getFecha());
-
         return vuelosFiltrados;
     }
 
