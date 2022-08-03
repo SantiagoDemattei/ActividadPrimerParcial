@@ -26,7 +26,7 @@ public class UserService {
         System.out.println("\nIngrese apellido: ");
         user.setApellido(console.nextLine());
 
-        System.out.println("\nIngrese pais de origen: ");
+        System.out.println("\nIngrese pais de origen (respetando tildes y caracteres especiales como la 'ñ'): ");
         user.setPaisOrigen(console.nextLine());
 
         return user;
@@ -173,7 +173,8 @@ public class UserService {
                 String numero = sc5.nextLine();
                 System.out.println("Seleccione la puerta de embarque del vuelo nuevo: ");
                 String puerta = sc5.nextLine();
-                user.cargarVueloNuevo(vuelo, numero, puerta);
+                user.setPrototipo(vuelo);
+                user.cargarVueloNuevo(numero, puerta);
             }
 
         }

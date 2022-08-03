@@ -1,9 +1,11 @@
 package Dominio;
 
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import Carga.*;
+import java.util.Locale;
+
 public class Vuelo implements Cloneable {
     private String flight_date;
     private String flight_status;

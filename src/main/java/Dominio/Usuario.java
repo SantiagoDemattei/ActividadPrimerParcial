@@ -15,6 +15,7 @@ public class Usuario {
     private String paisOrigen;
     private List<Vuelo> vuelosFiltrados;
     private Busqueda busqueda;
+    private Vuelo prototipo;
     private String password;
 
 
@@ -30,7 +31,7 @@ public class Usuario {
         Busqueda b = new Busqueda(estrategy, des, date, aero);
         this.busqueda = b;
     }
-
+    public void setPrototipo(Vuelo vuelo){this.prototipo = vuelo;}
 
     //GETTERS
     public List<Vuelo> getVuelosFiltrados() {return this.vuelosFiltrados;}
@@ -165,6 +166,16 @@ public class Usuario {
         vueloNuevo.getFlight().setFlight_icao(sc4.nextLine());
         System.out.println("Ingrese codigo de compartido: ");
         vueloNuevo.getFlight().setFlight_codeshared(sc4.nextLine());
+    }
+    public void cargarDatosAircraft(Scanner sc4, Vuelo vueloNuevo){
+        System.out.println("Ingrese numero de registro de la aeronave: ");
+        vueloNuevo.getAircraft().setAircraft_registration(sc4.nextLine());
+        System.out.println("Ingrese codigo iata de la aeronave : ");
+        vueloNuevo.getAircraft().setAircraft_iata(sc4.nextLine());
+        System.out.println("Ingrese codigo icao de la aeronave: ");
+        vueloNuevo.getAircraft().setAircraft_icao(sc4.nextLine());
+        System.out.println("Ingrese codigo icao24 de la aeronave: ");
+        vueloNuevo.getAircraft().setAircraft_icao24(sc4.nextLine());
     }
 
 
