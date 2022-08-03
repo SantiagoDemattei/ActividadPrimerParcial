@@ -9,22 +9,26 @@ public class Vuelo implements Cloneable {
     private String flight_status;
     Departure departure;
     JsonNode departureNode;
-
     Arrival arrival;
     JsonNode arrivalNode;
-
     Airline airline;
     JsonNode airlineNode;
-
     Flight flight;
     JsonNode flightNode;
-
     Aircraft aircraft;
     JsonNode aircraftNode;
-
     Live live;
     JsonNode liveNode;
 
+    //CONSTRUCTOR VUELO
+    public Vuelo(){
+        this.departure = new Departure();
+        this.arrival = new Arrival();
+        this.airline = new Airline();
+        this.flight = new Flight();
+        this.aircraft = new Aircraft();
+        this.live = new Live();
+    }
     public Vuelo clonar(){
         Vuelo vuelo = null;
         try {
@@ -34,7 +38,7 @@ public class Vuelo implements Cloneable {
         }
         return vuelo;
     }
-
+    //GETTERS
     public String getFlight_date(){return flight_date;}
     public String getFlight_status(){return flight_status;}
     public Departure getDeparture(){return departure;}
@@ -44,6 +48,7 @@ public class Vuelo implements Cloneable {
     public Aircraft getAircraft(){return aircraft;}
     public Live getLive(){return live;}
 
+    //SETTERS
     public void setFlight_date(String f){this.flight_date = f;}
     public void setFlight_status(String f){this.flight_status = f;}
     public void setDeparture(JsonNode n) throws JsonProcessingException {
@@ -151,6 +156,29 @@ public class Vuelo implements Cloneable {
         }
     }
 
+    public Boolean esNacional() throws Exception {
+        String codigoOrigen = this.departure.getDeparture_iata();
+        String codigoDestino = this.arrival.getArrival_iata();
+        final String yourDesktopPath = System.getProperty("user.dir") + "/src/main/java/Carga/";
+        LectorExcel lector = new LectorExcel();
+        String paisOrigen = lector.findRows(yourDesktopPath + "codigosPaisesAeropuertos.xlsx", codigoOrigen);
+        String paisDestino = lector.findRows(yourDesktopPath + "codigosPaisesAeropuertos.xlsx", codigoDestino);
+        return paisDestino.equals(paisOrigen);
+    }
 
+    public void gestionarCarga(){
+
+    }
+
+    /*
+    TRADUCCION INGLES ESPAÑOL
+     Locale outLocale = Locale.forLanguageTag("en-US");
+        Locale inLocale = Locale.forLanguageTag("es-AR");
+        for (Locale l : Locale.getAvailableLocales()) {
+            if (l.getDisplayCountry(inLocale).equals(paisOrigen)) {
+                String paisEnIngles = l.getDisplayCountry(outLocale);
+            }
+        }
+    */
 
 }

@@ -158,11 +158,7 @@ public class UserService {
             if(user.getVuelosFiltrados().size() == 0) {
                 System.out.println("Nuestro sistema no ha podido encontrar vuelos existentes para el destino ingresado");
                 System.out.println("A continuacion, ingrese los datos del nuevo vuelo");
-                System.out.println("Ingrese la fecha del vuelo: ");
-                String fecha = sc4.nextLine();
-                System.out.println("Ingrese el numero del vuelo: ");
-                String numero = sc4.nextLine();
-                //TODO: deberiamos completar los datos del vuelo como los que traemos de la api y hacer el chequeo para agregarlo al REPO
+                user.cargarDatosNuevoVuelo(destino);
             }
             else{
                 System.out.println("Los vuelos que usted puede utilizar como plantilla son los siguientes: ");
