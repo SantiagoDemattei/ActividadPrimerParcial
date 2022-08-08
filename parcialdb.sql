@@ -1,4 +1,4 @@
-CREATE DATABASE parcialdb;
+-- CREATE DATABASE parcialdb;
 USE parcialdb;
 
 CREATE TABLE IF NOT EXISTS usuario (
@@ -7,7 +7,9 @@ CREATE TABLE IF NOT EXISTS usuario (
                            `Mail` varchar(50) NOT NULL,
                            `Contraseña` varchar(50) NOT NULL,
                            `PaisOrigen` varchar(50) NOT NULL,
-                           `Id` int(11) NOT NULL
+                           `Id` int(11) NOT NULL,
+                           `Categoria` varchar(50) NOT NULL,
+                           `Pago` bool NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --

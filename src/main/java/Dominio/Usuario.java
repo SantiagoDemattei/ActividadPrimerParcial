@@ -1,7 +1,5 @@
 package Dominio;
 import Carga.RepoVuelosNuevo;
-import Carga.VueloInternacionalAdapter;
-import Carga.VueloNacional;
 import Consulta.Busqueda;
 import Consulta.Consultar;
 
@@ -34,6 +32,7 @@ public class Usuario {
     public void setPrototipo(Vuelo vuelo){this.prototipo = vuelo;}
 
     //GETTERS
+    public Categoria getCategoria() {return categoria;}
     public List<Vuelo> getVuelosFiltrados() {return this.vuelosFiltrados;}
     public String getNombre() {return this.nombre;}
     public String getApellido() {return this.apellido;}
@@ -45,7 +44,7 @@ public class Usuario {
 
 
     //CONSTRUCTORES
-    public Usuario(String n, String a, String m, String pass, String p) {
+    public Usuario(String n, String a, String m, String pass, String p, Categoria c, Boolean b) {
         this.nombre = n;
         this.apellido = a;
         this.mail = m;
@@ -59,10 +58,8 @@ public class Usuario {
     }
 
     //METODOS
-    public void consultarVueloExistente() throws Exception {
-        this.vuelosFiltrados = busqueda.buscarVuelos();
-    }
 
+    /*
     public void cargarVueloNuevo(String numVuelo, String puertaEmbarque) throws Exception{
 
         if(prototipo.esNacional()) {

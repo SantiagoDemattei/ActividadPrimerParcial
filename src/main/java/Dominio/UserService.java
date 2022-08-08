@@ -1,6 +1,8 @@
 package Dominio;
 
 import Consulta.*;
+
+import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -9,12 +11,15 @@ import Database.UsuarioDb;
 
 public class UserService {
 
-    public static Usuario registrarUser() {
+    public static Usuario registrarUser() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         Scanner console = new Scanner(System.in);
 
         System.out.println("\nIngrese email: ");
         String mail = console.nextLine();
-
+        if(buscarMailEnDb(mail)){
+            System.out.println("\nEl email ya existe, intente con otro");
+            return registrarUser();
+        }
         System.out.println("\nIngrese contrasena: ");
         String pass = console.nextLine();
 
@@ -32,11 +37,38 @@ public class UserService {
         return user;
     }
 
+    public static void instanciarCategoria(Integer c, Usuario user){
+        Categoria categoria;
+        while(true) {
+            switch (c) {
+                case 1:
+                    categoria = new Estandar();
+                    user.setCategoria(categoria);
+                    return;
+                case 2:
+                    categoria = new Intermedio();
+                    user.setCategoria(categoria);
+                    return;
+                case 3:
+                    categoria = new PremiumAdapter();
+                    user.setCategoria(categoria);
+                    return;
+                default:
+                    System.out.println("Categoria no valida");
+
+            }
+        }
+    }
+
     public static void registrarUsuario(Usuario user) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         UsuarioDb.registrarUsuario(user);
     }
 
-    public static Usuario buscarLoginEnDb(String mail, String pass) throws SQLException {
+    public static Boolean buscarMailEnDb(String mail) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+        Usuario user = UsuarioDb.buscarEnDb(mail);
+        return user != null;
+    }
+    public static Usuario buscarLoginEnDb(String mail, String pass) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         Usuario user = UsuarioDb.buscarEnDb(mail);
         if(user == null){
             System.out.println("No se ha encontrado el email ingresado");
@@ -45,6 +77,7 @@ public class UserService {
                 System.out.println("Bienvenido " + user.getNombre());
             }else{
                 System.out.println("Contraseña incorrecta");
+                user = null;
             }
         }
         return user;
@@ -68,9 +101,16 @@ public class UserService {
                     String aerolinea = sc2.nextLine();
                     user.setBusqueda(consultaA, null, null, aerolinea);
                     System.out.println("Buscando los vuelos que pertenecen a la aerolinea: " + aerolinea);
-                    user.consultarVueloExistente();
+                    user.getCategoria().consultarVueloExistente(user);
+
+                    if(user.getCategoria().getClass().getSimpleName().equals("PremiumAdapter") && !user.getPagaMembresia()){
+                        option = "quit";
+                    }
+
+                    if(!user.getCategoria().getClass().getSimpleName().equals("PremiumAdapter")){
+                        option = "quit";
+                    }
                     if(user.getVuelosFiltrados().size() == 0){
-                        System.out.println("La solicitud ingresada no es compatible con los vuelos de este sistema. Por favor intentelo de nuevo!");
                         break;
                     }
                     mostrarVuelosFiltrados(user);
@@ -81,7 +121,15 @@ public class UserService {
                     String destino = sc2.nextLine();
                     user.setBusqueda(consultaD, destino, null, null);
                     System.out.println("Buscando los vuelos con destino al aeropuerto: " + destino);
-                    user.consultarVueloExistente();
+                    user.getCategoria().consultarVueloExistente(user);
+
+                    if(user.getCategoria().getClass().getSimpleName().equals("PremiumAdapter") && !user.getPagaMembresia()){
+                        option = "quit";
+                    }
+
+                    if(!user.getCategoria().getClass().getSimpleName().equals("PremiumAdapter")){
+                        option = "quit";
+                    }
                     if(user.getVuelosFiltrados().size() == 0){
                         System.out.println("La solicitud ingresada no es compatible con los vuelos de este sistema. Por favor intentelo de nuevo!");
                         break;
@@ -94,14 +142,23 @@ public class UserService {
                     String fecha = sc2.nextLine();
                     user.setBusqueda(consultaF, null, fecha, null);
                     System.out.println("Buscando los vuelos con fecha: " + fecha);
-                    user.consultarVueloExistente();
+                    user.getCategoria().consultarVueloExistente(user);
+                    if(user.getCategoria().getClass().getSimpleName().equals("PremiumAdapter") && !user.getPagaMembresia()){
+                        option = "quit";
+                    }
+
+                    if(!user.getCategoria().getClass().getSimpleName().equals("PremiumAdapter")){
+                        option = "quit";
+                    }
                     if(user.getVuelosFiltrados().size() == 0){
                         System.out.println("La solicitud ingresada no es compatible con los vuelos de este sistema. Por favor intentelo de nuevo!");
                         break;
                     }
                     mostrarVuelosFiltrados(user);
                     break;
-
+                default:
+                    System.out.println("Opcion invalida");
+                    break;
             }
         }
     }
@@ -154,7 +211,7 @@ public class UserService {
             ConsultarPorAeropuertoDestino consultaD = new ConsultarPorAeropuertoDestino();
             user.setBusqueda(consultaD, destino, null, null);
             System.out.println("Aguarde un momento por favor...");
-            user.consultarVueloExistente();
+            user.getCategoria().consultarVueloExistente(user);
             if(user.getVuelosFiltrados().size() == 0) {
                 System.out.println("Nuestro sistema no ha podido encontrar vuelos existentes para el destino ingresado");
                 System.out.println("A continuacion, ingrese los datos del nuevo vuelo");

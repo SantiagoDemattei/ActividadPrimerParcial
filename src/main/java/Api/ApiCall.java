@@ -8,7 +8,7 @@ import Dominio.Vuelo;
 import java.util.*;
 
 public class ApiCall {
-    String TOKEN = "c289f292629c5da3a486778e1be75563";
+    String TOKEN = "d245a84a14bad53efb416ce91e1bd9c6";
     String PARAMETRO = "flights";
 
     public List<Vuelo> consultarVuelos() throws Exception {

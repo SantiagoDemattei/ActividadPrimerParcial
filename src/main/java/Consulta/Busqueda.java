@@ -10,6 +10,7 @@ public class Busqueda {
     String fecha;
     String aerolinea;
 
+
     public Busqueda(Consultar estrategy, String des, String date, String aero) {
         this.estrategia = estrategy;
         this.aeropuerto = des;
