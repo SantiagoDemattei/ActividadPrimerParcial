@@ -4,25 +4,47 @@ import Dominio.*;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.ResultSet;
+import java.sql.*;
 
 public class UsuarioDb {
 
     public static void registrarUsuario(Usuario user) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         Connection conn = Init.initDb();
-        PreparedStatement stmt = conn.prepareStatement("INSERT INTO usuario (Nombre, Apellido, Mail, Contraseña, PaisOrigen, Categoria, Pago) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        PreparedStatement stmt = conn.prepareStatement("INSERT INTO usuario (Nombre, Apellido, Mail, Contraseña, PaisOrigen, Categoria, PagaMembresia) VALUES (?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
         stmt.setString(1, user.getNombre());
         stmt.setString(2, user.getApellido());
         stmt.setString(3, user.getMail());
         stmt.setString(4, user.getPassword());
         stmt.setString(5, user.getPaisOrigen());
-        stmt.setString(6, user.getCategoria().getClass().getSimpleName());
+        stmt.setInt(6, agregarCategoria(conn, user.getCategoria()));
         stmt.setBoolean(7, user.getPagaMembresia());
-        stmt.executeUpdate();
+        stmt.execute();
+        int generatedKey = 0;
+        ResultSet rs = stmt.getGeneratedKeys();
+        if (rs.next()) {
+            generatedKey = rs.getInt(1);
+            System.out.println("El id del usuario es: " + generatedKey);
+            user.setId(generatedKey);
+        }
+
         conn.close();
+    }
+
+    public static Integer agregarCategoria(Connection conn, Categoria categoria) throws SQLException {
+        PreparedStatement stmt = conn.prepareStatement("INSERT INTO categoria (Nombre, CantMax) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
+        stmt.setString(1, categoria.getNombre());
+        if(categoria.getNombre() == "PremiumAdapter")
+            stmt.setNull(2, Types.INTEGER);
+        else
+            stmt.setInt(2, categoria.getCantMax());
+        stmt.execute();
+        int generatedKey = 0;
+        ResultSet rs = stmt.getGeneratedKeys();
+        if (rs.next()) {
+            generatedKey = rs.getInt(1);
+        }
+        categoria.setId(generatedKey);
+        return generatedKey;
     }
 
     public static Usuario buscarEnDb(String email) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
@@ -32,11 +54,73 @@ public class UsuarioDb {
         ResultSet rs = stmt.executeQuery();
         Usuario user = null;
         if (rs.next()) {
-            Class<?> clazz = Class.forName("Dominio." + rs.getString("Categoria"));
-            Categoria date = (Categoria) clazz.newInstance();
-            user = new Usuario(rs.getString("Nombre"), rs.getString("Apellido"), rs.getString("Mail"), rs.getString("Contraseña"), rs.getString("PaisOrigen"), date, rs.getBoolean("Pago"));
+            Categoria cat = buscarCategoriaEnDb(conn, rs.getInt("Categoria"));
+            user = new Usuario(rs.getString("Nombre"), rs.getString("Apellido"), rs.getString("Mail"), rs.getString("Contraseña"), rs.getString("PaisOrigen"), cat, rs.getBoolean("PagaMembresia"));
+            user.setId(rs.getInt(6));
         }
         conn.close();
         return user;
     }
+
+    public static Categoria buscarCategoriaEnDb(Connection conn, Integer categoriaId) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM categoria WHERE Categoria_id = ?");
+        stmt.setInt(1, categoriaId);
+        ResultSet rs2 = stmt.executeQuery();
+        if(rs2.next()){
+            Class<?> clazz = Class.forName("Dominio." + rs2.getString("Nombre"));
+            Categoria date = (Categoria) clazz.newInstance();
+            date.setNombre(rs2.getString("Nombre"));
+            date.setCantMax(rs2.getInt("CantMax"));
+            date.setId(rs2.getInt("Categoria_id"));
+            return date;
+        }
+        else return null;
+    }
+
+    public static void actualizarUsuarioEnDb(Usuario u) throws Exception{
+        Connection conn = Init.initDb();
+        PreparedStatement stmt = null;
+        try {
+
+            stmt = conn.prepareStatement("UPDATE usuario SET Nombre = ?, Apellido = ?, Mail = ?, Contraseña = ?, PaisOrigen = ?, PagaMembresia = ? WHERE Id = ?");
+            stmt.setString(1, u.getNombre());
+            stmt.setString(2, u.getApellido());
+            stmt.setString(3, u.getMail());
+            stmt.setString(4, u.getPassword());
+            stmt.setString(5, u.getPaisOrigen());
+            stmt.setBoolean(6, u.getPagaMembresia());
+            stmt.setInt(7, u.getId());
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    public static void actualizarCategoria(Categoria cat) throws Exception{
+        Connection conn = Init.initDb();
+        actualizarCategoriaEnDb(conn, cat);
+        conn.close();
+    }
+
+    public static void actualizarCategoriaEnDb(Connection conn, Categoria categoria) throws SQLException {
+        PreparedStatement stmt = conn.prepareStatement("UPDATE categoria SET Nombre = ?, CantMax = ? WHERE Categoria_id = ?");
+        stmt.setString(1, categoria.getNombre());
+
+        if(categoria.getNombre() == "PremiumAdapter")
+            stmt.setNull(2, Types.INTEGER);
+        else
+            stmt.setInt(2, categoria.getCantMax());
+
+        stmt.setInt(3, categoria.getId());
+        stmt.executeUpdate();
+    }
+
 }

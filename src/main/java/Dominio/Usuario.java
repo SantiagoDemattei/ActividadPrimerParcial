@@ -10,11 +10,11 @@ public class Usuario {
     private String nombre;
     private String apellido;
     private String mail;
-    private String paisOrigen;
-    private List<Vuelo> vuelosFiltrados;
+    private String paisOrigen; //TODO: VER SI ES AL PEDO!!
+    //private List<Vuelo> vuelosFiltrados;
     private Busqueda busqueda;
     private Vuelo prototipo;
-    private String password;
+    private String password; //TODO: VER LA CONTRA
     private Categoria categoria;
     private Boolean pagaMembresia;
 
@@ -34,14 +34,14 @@ public class Usuario {
     }
     public void setPrototipo(Vuelo vuelo){this.prototipo = vuelo;}
 
-    public void setVuelosFiltrados(List<Vuelo> lista) throws Exception {
-        this.vuelosFiltrados = lista;
-    }
+    //public void setVuelosFiltrados(List<Vuelo> lista) throws Exception {
+      //  this.vuelosFiltrados = lista;
+    //}
     public void setPagaMembresia(Boolean p) {this.pagaMembresia = p;}
 
     //GETTERS
     public Categoria getCategoria() {return categoria;}
-    public List<Vuelo> getVuelosFiltrados() {return this.vuelosFiltrados;}
+    //public List<Vuelo> getVuelosFiltrados() {return this.vuelosFiltrados;}
     public String getNombre() {return this.nombre;}
     public String getApellido() {return this.apellido;}
     public String getMail() {return this.mail;}
@@ -191,12 +191,13 @@ public class Usuario {
         vueloNuevo.getAircraft().setAircraft_icao24(sc4.nextLine());
     }
 
-    public void pagar(){
+    public void pagar() throws Exception{
         if(getPagaMembresia()){
             System.out.println("Ya realizaste el pago de la membresia \n");
         }
         else {
             setPagaMembresia(true);
+            UsuarioDb.actualizarUsuarioEnDb(this);
             System.out.println("El pago se ha efectuado con exito!! \n");
         }
     }

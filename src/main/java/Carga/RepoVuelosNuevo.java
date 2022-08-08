@@ -15,7 +15,8 @@ public class RepoVuelosNuevo {
         }
     }
 
-    public void cargarVuelo(Vuelo v) throws Exception{
+    public void cargarVuelo(Vuelo v) throws Exception {
         vuelosNuevos.add(v);
     }
+
 }

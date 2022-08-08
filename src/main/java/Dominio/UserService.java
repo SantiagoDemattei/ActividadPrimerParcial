@@ -118,11 +118,11 @@ public class UserService {
                     if(!user.getCategoria().getClass().getSimpleName().equals("PremiumAdapter")){
                         option = "quit";
                     }
-                    if(user.getVuelosFiltrados().size() == 0){
-                        break;
-                    }
-                    mostrarVuelosFiltrados(user);
-                    System.out.println();
+                    // if(user.getVuelosFiltrados().size() == 0){
+                    //   break;
+                    //}
+                    //mostrarVuelosFiltrados(user);
+                    //System.out.println();
                     break;
                 case "D":
                     ConsultarPorAeropuertoDestino consultaD = new ConsultarPorAeropuertoDestino();
@@ -139,10 +139,10 @@ public class UserService {
                     if(!user.getCategoria().getClass().getSimpleName().equals("PremiumAdapter")){
                         option = "quit";
                     }
-                    if(user.getVuelosFiltrados().size() == 0){
-                        break;
-                    }
-                    mostrarVuelosFiltrados(user);
+                  //  if(user.getVuelosFiltrados().size() == 0){
+                    //    break;
+                    //}
+                    //mostrarVuelosFiltrados(user);
                     break;
                 case "F":
                     ConsultarPorFecha consultaF = new ConsultarPorFecha();
@@ -158,10 +158,10 @@ public class UserService {
                     if(!user.getCategoria().getClass().getSimpleName().equals("PremiumAdapter")){
                         option = "quit";
                     }
-                    if(user.getVuelosFiltrados().size() == 0){
-                        break;
-                    }
-                    mostrarVuelosFiltrados(user);
+                    //if(user.getVuelosFiltrados().size() == 0){
+                      //  break;
+                    //}
+                    //mostrarVuelosFiltrados(user);
                     break;
                 default:
                     System.out.println("Opcion invalida");
@@ -170,9 +170,9 @@ public class UserService {
         }
     }
 
-    public static void mostrarVuelosFiltrados(Usuario user) throws Exception{
-        for(int i=0; i < user.getVuelosFiltrados().size(); i++){
-            Vuelo vuelo = user.getVuelosFiltrados().get(i);
+    public static void mostrarVuelosFiltrados(List<Vuelo> vuelos) {
+        for(int i=0; i < vuelos.size(); i++){
+            Vuelo vuelo = vuelos.get(i);
             System.out.println("                                VUELO: " + i);
             System.out.println();
             System.out.println("DATA: ");
@@ -207,6 +207,7 @@ public class UserService {
                 System.out.println("LIVE: ");
                 System.out.println(vuelo.getLive().getLive_updated() + " " + vuelo.getLive().getLive_latitude() + " " + vuelo.getLive().getLive_longitude() + " " + vuelo.getLive().getLive_altitude() + " " + vuelo.getLive().getLive_direction() + " " + vuelo.getLive().getLive_speed_horizontal() + " " + vuelo.getLive().getLive_speed_vertical() + " " + vuelo.getLive().getLive_is_ground());
             }
+            System.out.println();
         }
 
     }
@@ -218,8 +219,11 @@ public class UserService {
             ConsultarPorAeropuertoDestino consultaD = new ConsultarPorAeropuertoDestino();
             user.setBusqueda(consultaD, destino, null, null);
             System.out.println("Aguarde un momento por favor...");
-            user.getCategoria().consultarVueloExistente(user);
-            if(user.getVuelosFiltrados().size() == 0) {
+            //user.getCategoria().consultarVueloExistente(user);
+            List<Vuelo> vuelos;
+            vuelos = user.getBusqueda().buscarVuelos();
+
+            if(vuelos.size() == 0) {
                 System.out.println("Nuestro sistema no ha podido encontrar vuelos existentes para el destino ingresado");
                 System.out.println("A continuacion, ingrese los datos del nuevo vuelo");
                 user.cargarDatosNuevoVuelo(destino);
@@ -232,7 +236,7 @@ public class UserService {
                 System.out.println("Seleccione el ID del vuelo que desea usar como plantilla: ");
                 Integer indice = sc5.nextInt();
                 sc5.nextLine();
-                Vuelo vuelo = user.getVuelosFiltrados().get(indice);
+                Vuelo vuelo = vuelos.get(indice);
                 System.out.println("Seleccione el numero del vuelo nuevo: ");
                 String numero = sc5.nextLine();
                 System.out.println("Seleccione la puerta de embarque del vuelo nuevo: ");

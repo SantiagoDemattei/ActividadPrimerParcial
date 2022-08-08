@@ -2,14 +2,15 @@
 USE parcialdb;
 
 CREATE TABLE IF NOT EXISTS usuario (
-                           `Nombre` varchar(50) NOT NULL,
-                           `Apellido` varchar(50) NOT NULL,
-                           `Mail` varchar(50) NOT NULL,
-                           `Contraseña` varchar(50) NOT NULL,
-                           `PaisOrigen` varchar(50) NOT NULL,
-                           `Id` int(11) NOT NULL,
-                           `Categoria` varchar(50) NOT NULL,
-                           `Pago` bool NOT NULL
+                           `Nombre` varchar(255) NOT NULL,
+                           `Apellido` varchar(255) NOT NULL,
+                           `Mail` varchar(255) NOT NULL,
+                           `Contraseña` varchar(255) NOT NULL,
+                           `PaisOrigen` varchar(255) NOT NULL,
+                           `Id` INT NOT NULL,
+                           `Categoria` INT NOT NULL,
+                           `PagaMembresia` bool NOT NULL,
+                           foreign key (Categoria) references categoria(Categoria_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
