@@ -18,4 +18,28 @@ public class PremiumAdapter implements Categoria {
             System.out.println("No se ha efectuado el pago para acceder a esta funcionalidad");
         }
     }
+
+    public String getNombre(){
+        return nombre;
+    }
+
+    public Integer getId(){
+        return id;
+    }
+
+    public void setId(Integer id){
+        this.id = id;
+    }
+
+    public Integer getCantMax(){
+        return cantMax;
+    }
+
+    public void setNombre(String n){
+        this.nombre = n;
+    }
+
+    public void setCantMax(Integer cant){
+        this.cantMax = cant;
+    }
 }

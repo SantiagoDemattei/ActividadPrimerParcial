@@ -2,11 +2,13 @@ package Dominio;
 import Carga.RepoVuelosNuevo;
 import Consulta.Busqueda;
 import Consulta.Consultar;
+import Database.UsuarioDb;
+import com.mysql.cj.x.protobuf.MysqlxDatatypes;
 
 import java.util.*;
 
 public class Usuario {
-    private Number id;
+    private Integer id;
     private String nombre;
     private String apellido;
     private String mail;
@@ -25,7 +27,7 @@ public class Usuario {
     public void setMail(String mail) {this.mail = mail;}
     public void setPaisOrigen(String pais) {this.paisOrigen = pais;}
     public void setPassword(String password) {this.password = password;}
-    public void setId(Number id) {this.id = id;}
+    public void setId(Integer id) {this.id = id;}
     public void setCategoria(Categoria c){this.categoria = c;}
 
     public void setBusqueda(Consultar estrategy, String des, String date, String aero) {
@@ -47,7 +49,7 @@ public class Usuario {
     public String getMail() {return this.mail;}
     public String getPaisOrigen() {return this.paisOrigen;}
     public String getPassword() {return this.password;}
-    public Number getId() {return this.id;}
+    public Integer getId() {return this.id;}
     public Vuelo getPrototipo(){return this.prototipo;}
     public Busqueda getBusqueda(){return this.busqueda;}
     public Boolean getPagaMembresia(){return this.pagaMembresia;}
@@ -86,7 +88,7 @@ public class Usuario {
      */
 
     public void setearDatosVueloClonado(String numVuelo, String puertaEmbarque) throws Exception{
-        RepoVuelosNuevo repo = new RepoVuelosNuevo();
+        RepoVuelosNuevo repo = RepoVuelosNuevo.getInstance();
         Vuelo vueloClonado = this.getPrototipo().clonar();
         vueloClonado.getFlight().setFlight_number(numVuelo);
         vueloClonado.getDeparture().setDeparture_gate(puertaEmbarque);
@@ -97,7 +99,7 @@ public class Usuario {
     public void cargarDatosNuevoVuelo(String aeropuertoDestino) throws Exception{
         Scanner sc4 = new Scanner(System.in);
         Vuelo vueloNuevo = new Vuelo();
-        RepoVuelosNuevo repo = new RepoVuelosNuevo();
+        RepoVuelosNuevo repo = RepoVuelosNuevo.getInstance();
         vueloNuevo.getArrival().setArrival_airport(aeropuertoDestino);
         System.out.println("Ingrese la fecha del vuelo: ");
         vueloNuevo.setFlight_date(sc4.nextLine());

@@ -9,7 +9,8 @@ import java.util.Scanner;
 public class Intermedio implements Categoria {
 
     Integer cantMax = 1;
-
+    String nombre = "Intermedio";
+    Integer id;
     public void consultarVueloExistente(Usuario user) throws Exception {
         List<Vuelo> vuelos;
         if (cantMax == 1) {
@@ -46,6 +47,30 @@ public class Intermedio implements Categoria {
         user.setCategoria(new PremiumAdapter());
         user.getCategoria().setId(id_viejo);
         UsuarioDb.actualizarCategoria(user.getCategoria());
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public Integer getId(){
+        return id;
+    }
+
+    public void setId(Integer id){
+        this.id = id;
+    }
+
+    public Integer getCantMax(){
+        return cantMax;
+    }
+
+    public void setNombre(String n){
+        this.nombre = n;
+    }
+
+    public void setCantMax(Integer cant){
+        this.cantMax = cant;
     }
 }
 

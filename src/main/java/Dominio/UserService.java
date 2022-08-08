@@ -4,6 +4,8 @@ import Consulta.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import Consulta.ConsultarPorAeropuertoDestino;
@@ -231,7 +233,7 @@ public class UserService {
             else{
                 System.out.println("Los vuelos que usted puede utilizar como plantilla son los siguientes: ");
                 Thread.sleep(1500);
-                mostrarVuelosFiltrados(user);
+                mostrarVuelosFiltrados(vuelos);
                 Scanner sc5 = new Scanner(System.in);
                 System.out.println("Seleccione el ID del vuelo que desea usar como plantilla: ");
                 Integer indice = sc5.nextInt();
