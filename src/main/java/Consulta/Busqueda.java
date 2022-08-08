@@ -18,8 +18,8 @@ public class Busqueda {
         this.aerolinea = aero;
     }
 
-    public List<Vuelo> buscarVuelos() throws Exception{
-    return estrategia.filtrar(this);
+    public List<Vuelo> buscarVuelos() throws Exception {
+        return estrategia.filtrar(this);
     }
 
     public String getFecha() {

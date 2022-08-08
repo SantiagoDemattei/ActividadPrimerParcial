@@ -46,27 +46,13 @@ public class Main {
                     if(loggedUser == null)
                         option3 = 0;
                     while (option3 != 0) {
-                        System.out.println("Ingresa un numero segun la operacion a realizar \n " +
-                                "0. Salir\n " +
-                                "1. Consultar vuelos \n " +
-                                "2. Cargar nuevo vuelo \n ");
-                        option3 = sc.nextInt();
-                        switch (option3) {
-                            case 0:
-                                System.out.println("Cerrando Sesion...");
-                                option3 = 0;
-                                break;
-                            case 1:
-                                System.out.println("Consultando vuelos...");
-                                UserService.menuConsultarVuelo(loggedUser);
-                                break;
-                            case 2:
-                                System.out.println("Cargando nuevo vuelo...");
-                                UserService.menuCargarVuelo(loggedUser);
-                                break;
-                            default:
-                                System.out.println("Opcion invalida");
-                                break;
+                        if(loggedUser.getCategoria().getClass().getSimpleName().equals("PremiumAdapter")){
+                           option3 = UserService.mostrarMenuPremium(loggedUser, sc);
+
+                        } else {
+                            UserService.mostrarMenuEstandar(loggedUser, sc);
+                            option3 = sc.nextInt();
+                            UserService.mostrarOpciones(loggedUser, option3, false);
                         }
                     }
                     break;
@@ -76,4 +62,5 @@ public class Main {
             }
         }
     }
+
 }

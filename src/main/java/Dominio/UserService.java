@@ -13,6 +13,7 @@ public class UserService {
 
     public static Usuario registrarUser() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         Scanner console = new Scanner(System.in);
+        Integer option;
 
         System.out.println("\nIngrese email: ");
         String mail = console.nextLine();
@@ -25,6 +26,8 @@ public class UserService {
 
         Usuario user = new Usuario(mail, pass);
 
+        user.setPagaMembresia(false);
+
         System.out.println("\nIngrese nombre: ");
         user.setNombre(console.nextLine());
 
@@ -33,6 +36,11 @@ public class UserService {
 
         System.out.println("\nIngrese pais de origen (respetando tildes y caracteres especiales como la 'ñ'): ");
         user.setPaisOrigen(console.nextLine());
+
+        System.out.println("\n Ingrese categoria de usuario: 1-Estandar 2-Intermedio 3-Premium");
+        option = console.nextInt();
+        console.nextLine();
+        instanciarCategoria(option, user);
 
         return user;
     }
@@ -114,6 +122,7 @@ public class UserService {
                         break;
                     }
                     mostrarVuelosFiltrados(user);
+                    System.out.println();
                     break;
                 case "D":
                     ConsultarPorAeropuertoDestino consultaD = new ConsultarPorAeropuertoDestino();
@@ -131,7 +140,6 @@ public class UserService {
                         option = "quit";
                     }
                     if(user.getVuelosFiltrados().size() == 0){
-                        System.out.println("La solicitud ingresada no es compatible con los vuelos de este sistema. Por favor intentelo de nuevo!");
                         break;
                     }
                     mostrarVuelosFiltrados(user);
@@ -151,7 +159,6 @@ public class UserService {
                         option = "quit";
                     }
                     if(user.getVuelosFiltrados().size() == 0){
-                        System.out.println("La solicitud ingresada no es compatible con los vuelos de este sistema. Por favor intentelo de nuevo!");
                         break;
                     }
                     mostrarVuelosFiltrados(user);
@@ -231,9 +238,53 @@ public class UserService {
                 System.out.println("Seleccione la puerta de embarque del vuelo nuevo: ");
                 String puerta = sc5.nextLine();
                 user.setPrototipo(vuelo);
-                user.cargarVueloNuevo(numero, puerta);
+                user.setearDatosVueloClonado(numero, puerta);
             }
 
         }
+
+    public static Integer mostrarMenuPremium(Usuario user, Scanner sc) throws Exception {
+        Integer option = -1;
+        mostrarMenuEstandar(user, sc);
+        System.out.println(" 3. Pagar");
+        option =  sc.nextInt();
+        mostrarOpciones(user, option, true);
+        return option;
+    }
+
+    public static void mostrarMenuEstandar(Usuario user, Scanner sc) throws Exception {
+        System.out.println("Ingresa un numero segun la operacion a realizar \n " +
+                "0. Salir\n " +
+                "1. Consultar vuelos \n " +
+                "2. Cargar nuevo vuelo ");
+    }
+
+    public static void mostrarOpciones(Usuario user, Integer option, Boolean esPremium) throws Exception {
+        switch (option) {
+            case 0:
+                System.out.println("Cerrando Sesion...");
+                break;
+            case 1:
+                System.out.println("Consultando vuelos...");
+                menuConsultarVuelo(user);
+                break;
+            case 2:
+                System.out.println("Cargando nuevo vuelo...");
+                menuCargarVuelo(user);
+                break;
+            case 3:
+                if (esPremium) {
+                    user.pagar();
+                }
+                else {
+                    System.out.println("Opcion invalida");
+                }
+                break;
+
+            default:
+                System.out.println("Opcion invalida");
+                break;
+        }
+    }
 }
 

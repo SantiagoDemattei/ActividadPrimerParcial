@@ -15,6 +15,8 @@ public class Usuario {
     private Busqueda busqueda;
     private Vuelo prototipo;
     private String password;
+    private Categoria categoria;
+    private Boolean pagaMembresia;
 
 
     //SETTERS
@@ -24,12 +26,18 @@ public class Usuario {
     public void setPaisOrigen(String pais) {this.paisOrigen = pais;}
     public void setPassword(String password) {this.password = password;}
     public void setId(Number id) {this.id = id;}
+    public void setCategoria(Categoria c){this.categoria = c;}
 
     public void setBusqueda(Consultar estrategy, String des, String date, String aero) {
         Busqueda b = new Busqueda(estrategy, des, date, aero);
         this.busqueda = b;
     }
     public void setPrototipo(Vuelo vuelo){this.prototipo = vuelo;}
+
+    public void setVuelosFiltrados(List<Vuelo> lista) throws Exception {
+        this.vuelosFiltrados = lista;
+    }
+    public void setPagaMembresia(Boolean p) {this.pagaMembresia = p;}
 
     //GETTERS
     public Categoria getCategoria() {return categoria;}
@@ -41,7 +49,8 @@ public class Usuario {
     public String getPassword() {return this.password;}
     public Number getId() {return this.id;}
     public Vuelo getPrototipo(){return this.prototipo;}
-
+    public Busqueda getBusqueda(){return this.busqueda;}
+    public Boolean getPagaMembresia(){return this.pagaMembresia;}
 
     //CONSTRUCTORES
     public Usuario(String n, String a, String m, String pass, String p, Categoria c, Boolean b) {
@@ -50,6 +59,8 @@ public class Usuario {
         this.mail = m;
         this.paisOrigen = p;
         this.password = pass;
+        this.categoria = c;
+        this.pagaMembresia = b;
     }
 
     public Usuario(String m, String p) {
@@ -72,16 +83,21 @@ public class Usuario {
         }
 
     }
-    public void setearDatosVueloClonado(Vuelo vueloClonado, String numVuelo, String puertaEmbarque) throws Exception{
+     */
+
+    public void setearDatosVueloClonado(String numVuelo, String puertaEmbarque) throws Exception{
         RepoVuelosNuevo repo = new RepoVuelosNuevo();
+        Vuelo vueloClonado = this.getPrototipo().clonar();
         vueloClonado.getFlight().setFlight_number(numVuelo);
         vueloClonado.getDeparture().setDeparture_gate(puertaEmbarque);
-        vueloClonado.cargarVuelo(vueloClonado);
+        repo.cargarVuelo(vueloClonado);
     }
 
-    public void cargarDatosNuevoVuelo(String aeropuertoDestino){
+
+    public void cargarDatosNuevoVuelo(String aeropuertoDestino) throws Exception{
         Scanner sc4 = new Scanner(System.in);
         Vuelo vueloNuevo = new Vuelo();
+        RepoVuelosNuevo repo = new RepoVuelosNuevo();
         vueloNuevo.getArrival().setArrival_airport(aeropuertoDestino);
         System.out.println("Ingrese la fecha del vuelo: ");
         vueloNuevo.setFlight_date(sc4.nextLine());
@@ -92,7 +108,7 @@ public class Usuario {
         this.cargarDatosAirline(sc4, vueloNuevo);
         this.cargarDatosFlight(sc4, vueloNuevo);
         this.cargarDatosAircraft(sc4, vueloNuevo);
-        //repo.cargarVuelo(vueloNuevo);
+        repo.cargarVuelo(vueloNuevo);
     }
     public void cargarDatosDeparture(Scanner sc4, Vuelo vueloNuevo){
         System.out.println("Ingrese aeropuerto de origen: ");
@@ -175,6 +191,15 @@ public class Usuario {
         vueloNuevo.getAircraft().setAircraft_icao24(sc4.nextLine());
     }
 
+    public void pagar(){
+        if(getPagaMembresia()){
+            System.out.println("Ya realizaste el pago de la membresia \n");
+        }
+        else {
+            setPagaMembresia(true);
+            System.out.println("El pago se ha efectuado con exito!! \n");
+        }
+    }
 
 }
 
