@@ -1,5 +1,6 @@
 package Dominio;
 
+import Carga.RepoVuelosNuevo;
 import Consulta.*;
 
 import java.lang.reflect.InvocationTargetException;
@@ -251,8 +252,8 @@ public class UserService {
 
     public static Integer mostrarMenuPremium(Usuario user, Scanner sc) throws Exception {
         Integer option = -1;
-        mostrarMenuEstandar(user, sc);
-        System.out.println(" 3. Pagar");
+        mostrarMenuIntermedio(user, sc);
+        System.out.println(" 4. Pagar");
         option =  sc.nextInt();
         mostrarOpciones(user, option, true);
         return option;
@@ -279,6 +280,10 @@ public class UserService {
                 menuCargarVuelo(user);
                 break;
             case 3:
+                System.out.println("Controlando estado de vuelos cargados...");
+                RepoVuelosNuevo.controlarEstadoVuelos();
+                break;
+            case 4:
                 if (esPremium) {
                     user.pagar();
                 }
