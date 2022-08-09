@@ -158,18 +158,12 @@ public class Vuelo implements Cloneable {
         }
     }
 
-    public Boolean esNacional() throws Exception {
-        String codigoOrigen = this.departure.getDeparture_iata();
-        String codigoDestino = this.arrival.getArrival_iata();
+    public String getCiudadDestino() throws Exception {
+        String codigoIata = getArrival().getArrival_iata().toUpperCase();
+        LectorExcel lector = LectorExcel.getInstance();
         final String yourDesktopPath = System.getProperty("user.dir") + "/src/main/java/Carga/";
-        LectorExcel lector = new LectorExcel();
-        String paisOrigen = lector.findRows(yourDesktopPath + "codigosPaisesAeropuertos.xlsx", codigoOrigen);
-        String paisDestino = lector.findRows(yourDesktopPath + "codigosPaisesAeropuertos.xlsx", codigoDestino);
-        return paisDestino.equals(paisOrigen);
-    }
-
-    public void gestionarCarga(){
-
+        String ciudad = lector.findRows(yourDesktopPath + "codigosPaisesAeropuertos2.xlsx", codigoIata);
+        return ciudad;
     }
 
     /*

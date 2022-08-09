@@ -1,6 +1,8 @@
 package Dominio;
 
 
+import Api.ApiCallClima;
+import Api.ApiCallVuelos;
 import Database.UsuarioDb;
 import sun.text.normalizer.UBiDiProps;
 import java.sql.*;
@@ -12,6 +14,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         Integer option = -1;
         Scanner sc = new Scanner(System.in);
+
 
         while (option != 0) {
 
@@ -49,12 +52,19 @@ public class Main {
                         if(loggedUser.getCategoria().getClass().getSimpleName().equals("PremiumAdapter")){
                            option3 = UserService.mostrarMenuPremium(loggedUser, sc);
 
-                        } else {
+                        } else if (loggedUser.getCategoria().getClass().getSimpleName().equals("Estandar")){
                             UserService.mostrarMenuEstandar(loggedUser, sc);
                             option3 = sc.nextInt();
                             UserService.mostrarOpciones(loggedUser, option3, false);
                         }
-                    }
+                        else{
+                            UserService.mostrarMenuIntermedio(loggedUser, sc);
+                            option3 = sc.nextInt();
+                            UserService.mostrarOpciones(loggedUser, option3, false);
+                        }
+
+                        }
+
                     break;
                 default:
                     System.out.println("Opcion invalida");

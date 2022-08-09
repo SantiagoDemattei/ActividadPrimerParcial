@@ -265,6 +265,13 @@ public class UserService {
                 "1. Consultar vuelos \n " +
                 "2. Cargar nuevo vuelo ");
     }
+    public static void mostrarMenuIntermedio(Usuario user, Scanner sc) throws Exception {
+        System.out.println("Ingresa un numero segun la operacion a realizar \n " +
+                "0. Salir\n " +
+                "1. Consultar vuelos \n " +
+                "2. Cargar nuevo vuelo \n" +
+                " 3. Controlar estado de vuelos cargados ");
+    }
 
     public static void mostrarOpciones(Usuario user, Integer option, Boolean esPremium) throws Exception {
         switch (option) {
