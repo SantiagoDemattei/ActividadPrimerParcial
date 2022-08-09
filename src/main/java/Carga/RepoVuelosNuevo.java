@@ -4,6 +4,7 @@ import java.util.*;
 
 public class RepoVuelosNuevo {
     List<Vuelo> vuelosNuevos = new ArrayList<>();
+    List<Vuelo> vuelosNuevosInternacionales = new ArrayList<>();
     private static RepoVuelosNuevo instance;
 
     private RepoVuelosNuevo() {
