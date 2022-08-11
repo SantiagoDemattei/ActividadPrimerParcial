@@ -2,11 +2,12 @@ package Database;
 
 import Dominio.*;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
 
 public class UsuarioDb {
+
+    private static final Encriptacion enc = new Encriptacion();
 
     public static void registrarUsuario(Usuario user) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         Connection conn = Init.initDb();
@@ -14,7 +15,10 @@ public class UsuarioDb {
         stmt.setString(1, user.getNombre());
         stmt.setString(2, user.getApellido());
         stmt.setString(3, user.getMail());
-        stmt.setString(4, user.getPassword());
+
+        String contraseniaEncriptada = enc.encriptacion(user.getPassword());
+        stmt.setString(4, contraseniaEncriptada);
+
         stmt.setString(5, user.getPaisOrigen());
         stmt.setInt(6, agregarCategoria(conn, user.getCategoria()));
         stmt.setBoolean(7, user.getPagaMembresia());
@@ -29,6 +33,7 @@ public class UsuarioDb {
 
         conn.close();
     }
+
 
     public static Integer agregarCategoria(Connection conn, Categoria categoria) throws SQLException {
         PreparedStatement stmt = conn.prepareStatement("INSERT INTO categoria (Nombre, CantMax) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
@@ -55,11 +60,18 @@ public class UsuarioDb {
         Usuario user = null;
         if (rs.next()) {
             Categoria cat = buscarCategoriaEnDb(conn, rs.getInt("Categoria"));
-            user = new Usuario(rs.getString("Nombre"), rs.getString("Apellido"), rs.getString("Mail"), rs.getString("Contraseña"), rs.getString("PaisOrigen"), cat, rs.getBoolean("PagaMembresia"));
+            String passDesencriptada = enc.desencriptacion(rs.getString("Contraseña"));
+            user = new Usuario(rs.getString("Nombre"), rs.getString("Apellido"), rs.getString("Mail"), passDesencriptada, rs.getString("PaisOrigen"), cat, rs.getBoolean("PagaMembresia"));
             user.setId(rs.getInt(6));
         }
         conn.close();
         return user;
+    }
+
+    public static boolean coincideContrasenia(String passIngresada, String passDb){
+        System.out.println("La contraseña ingresada es: " + passIngresada);
+        System.out.println("La contraseña de la base de datos es: " + passDb);
+        return passIngresada.equals(passDb);
     }
 
     public static Categoria buscarCategoriaEnDb(Connection conn, Integer categoriaId) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
@@ -81,12 +93,14 @@ public class UsuarioDb {
         Connection conn = Init.initDb();
         PreparedStatement stmt = null;
         try {
-
             stmt = conn.prepareStatement("UPDATE usuario SET Nombre = ?, Apellido = ?, Mail = ?, Contraseña = ?, PaisOrigen = ?, PagaMembresia = ? WHERE Id = ?");
             stmt.setString(1, u.getNombre());
             stmt.setString(2, u.getApellido());
             stmt.setString(3, u.getMail());
-            stmt.setString(4, u.getPassword());
+
+            String contraseniaEncriptada = enc.encriptacion(u.getPassword());
+            stmt.setString(4, contraseniaEncriptada);
+
             stmt.setString(5, u.getPaisOrigen());
             stmt.setBoolean(6, u.getPagaMembresia());
             stmt.setInt(7, u.getId());

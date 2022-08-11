@@ -1,10 +1,11 @@
 package Api;
 
+import Dominio.UserService;
+import Dominio.Vuelo;
 import org.apache.cxf.jaxrs.client.WebClient;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javax.ws.rs.core.Response;
-import Dominio.Vuelo;
 import java.util.*;
 
 public class ApiCallVuelos {
@@ -52,6 +53,7 @@ public class ApiCallVuelos {
                 throw new Exception("Error en la llamada a la API");
             }
         }
+        UserService.mostrarVuelosFiltrados(vuelosTotales);
         return vuelosTotales;
     }
 

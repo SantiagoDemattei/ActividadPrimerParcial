@@ -2,10 +2,9 @@ package Consulta;
 
 import Api.ApiCallVuelos;
 import Dominio.Vuelo;
-
 import java.util.List;
 
-public class Consultar {
+public abstract class Consultar {
 
     public List<Vuelo> filtrar(Busqueda b) throws Exception {
         List<Vuelo> vuelos;

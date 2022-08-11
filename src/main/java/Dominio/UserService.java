@@ -84,7 +84,7 @@ public class UserService {
         if(user == null){
             System.out.println("No se ha encontrado el email ingresado");
         }else{
-            if(user.getPassword().equals(pass)){
+            if(UsuarioDb.coincideContrasenia(pass, user.getPassword())){
                 System.out.println("Bienvenido " + user.getNombre());
             }else{
                 System.out.println("Contraseña incorrecta");
@@ -149,7 +149,8 @@ public class UserService {
                     break;
                 case "F":
                     ConsultarPorFecha consultaF = new ConsultarPorFecha();
-                    System.out.println("Ingrese la fecha en el siguiente formato: YYYY-MM-DDThh:mm:ss+hh:ss (Ejemplo: 2022-08-01T14:50:00+00:00)");
+                    // formato requerido por la api: YYYY-MM-DDThh:mm:ss+hh:ss (Ejemplo: 2022-08-01T14:50:00+00:00)
+                    System.out.println("Ingrese la hora del vuelo en el siguiente formato: hora:minuto");
                     String fecha = sc2.nextLine();
                     user.setBusqueda(consultaF, null, fecha, null);
                     System.out.println("Buscando los vuelos con fecha: " + fecha);
@@ -222,7 +223,7 @@ public class UserService {
             ConsultarPorAeropuertoDestino consultaD = new ConsultarPorAeropuertoDestino();
             user.setBusqueda(consultaD, destino, null, null);
             System.out.println("Aguarde un momento por favor...");
-            //user.getCategoria().consultarVueloExistente(user);
+            user.getCategoria().consultarVueloExistente(user);
             List<Vuelo> vuelos;
             vuelos = user.getBusqueda().buscarVuelos();
 
@@ -270,7 +271,7 @@ public class UserService {
                 "0. Salir\n " +
                 "1. Consultar vuelos \n " +
                 "2. Cargar nuevo vuelo \n" +
-                " 3. Controlar estado de vuelos cargados ");
+                " 3. Controlar temperatura para despegue de los vuelos cargados ");
     }
 
     public static void mostrarOpciones(Usuario user, Integer option, Boolean esPremium) throws Exception {
@@ -287,8 +288,8 @@ public class UserService {
                 menuCargarVuelo(user);
                 break;
             case 3:
-                System.out.println("Controlando estado de vuelos cargados...");
-                RepoVuelosNuevo.controlarEstadoVuelos();
+                System.out.println("Controlando temperatura para el despegue de vuelos cargados...");
+                RepoVuelosNuevo.controlarTemperaturaParaDespegue();
                 break;
             case 4:
                 if (esPremium) {

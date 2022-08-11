@@ -1,12 +1,72 @@
 package Dominio;
 
-public interface Categoria {
+import Database.UsuarioDb;
 
-    public void consultarVueloExistente(Usuario user) throws Exception;
-    public String getNombre();
-    public Integer getId();
-    public Integer getCantMax();
-    public void setId(Integer id);
-    public void setNombre(String nombre);
-    public void setCantMax(Integer cant);
+import java.util.List;
+import java.util.Scanner;
+
+public abstract class Categoria {
+
+    Integer cantMax;
+    String nombre;
+    Integer id;
+
+    public void consultarVueloExistente(Usuario user) throws Exception{
+
+        List<Vuelo> vuelos;
+        if (cantMax == 1) {
+            vuelos = user.getBusqueda().buscarVuelos();
+
+            if (vuelos.size() == 0) {
+                System.out.println("La solicitud ingresada no es compatible con los vuelos de este sistema.");
+            }
+            else{
+                UserService.mostrarVuelosFiltrados(vuelos);
+            }
+            cantMax--;
+            UsuarioDb.actualizarCategoria(user.getCategoria());
+
+        } else {
+            System.out.println("Se supero la cantidad maxima de consultas posibles! Hagase premium para mas consultas");
+            Scanner sc = new Scanner(System.in);
+            String opcion;
+            System.out.println("Desea cambiarse a premium?: (S/N)");
+            opcion = sc.nextLine();
+            switch (opcion) {
+                case "S":
+                    cambiarAPremium(user);
+                    break;
+                case "N":
+                    break;
+                default:
+                    System.out.println("Opcion invalida");
+                    break;
+            }
+        }
+    }
+    public static void cambiarAPremium (Usuario user) throws Exception{
+        Integer id_viejo = user.getCategoria().getId();
+        user.setCategoria(new PremiumAdapter());
+        user.getCategoria().setId(id_viejo);
+        UsuarioDb.actualizarCategoria(user.getCategoria());
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public Integer getId(){
+        return id;
+    }
+
+    public void setId(Integer id){
+        this.id = id;
+    }
+
+    public Integer getCantMax(){return cantMax;};
+
+    public void setNombre(String n){this.nombre = n;}
+
+    public void setCantMax(Integer cant){this.cantMax = cant;}
+
 }

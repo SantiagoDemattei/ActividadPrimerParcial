@@ -27,22 +27,28 @@ public class RepoVuelosNuevo {
 
     public List<Vuelo> getVuelosNuevos() {return vuelosNuevos;}
 
-    public static void controlarEstadoVuelos() throws Exception{
+    public static void controlarTemperaturaParaDespegue() throws Exception{
         if(vuelosNuevos.size() != 0) {
             for (int i = 0; i < vuelosNuevos.size(); i++) {
                 Vuelo vuelo = vuelosNuevos.get(i);
-                String ciudadDestino = vuelo.getCiudadDestino();
-                ApiCallClima api = new ApiCallClima();
-                api.setParametro(ciudadDestino);
-                Float temp = api.consultarClima();
-                if (!(temp > 0 && temp < 30)) {
-                    vuelo.setFlight_status("Cancelado");
-                    System.out.println("Se ha cambiado el estado del vuelo: " + vuelo.getFlight().getFlight_number() + " a CANCELADO porque la temperatura de la ciudad destino es de " + temp + " grados");
+
+                if(vuelo.getEstado().getClass().getSimpleName().equals("AptoParaDespegar")){
+                    String ciudadOrigen = vuelo.getCiudadOrigen();
+                    ApiCallClima api = new ApiCallClima();
+                    api.setParametro(ciudadOrigen);
+                    Float temp = api.consultarClima();
+                    if (!(temp > 0 && temp < 30)) {
+                        System.out.println("El vuelo con destino al aeropuerto: " + vuelo.getArrival().getArrival_airport() + "queda suspendido por temperatura actual de: " + temp + "grados,  fuera del rango permitido (0 a 30 grados Celsius) para el despegue");
+                        vuelosNuevos.remove(vuelo);
+                    }
+                    else{
+                        System.out.println("La temperatura actual es de" + temp + " grados Celsius y se encuentra dentro del rango permitido (0 a 30 grados Celsius). DESPEGUE ACEPTADO");
+                    }
+                    Thread.sleep(500);
                 }
                 else{
-                    System.out.println("El estado del vuelo esta OK. La temperatura de la ciudad destino es de " + temp + " grados Celsius y se encuentra dentro del rango exigido (0 a 30 grados Celsius)");
+                    System.out.println("El vuelo no está apto para despegar. No se puede controlar la temperatura");
                 }
-                Thread.sleep(500);
             }
         }
         else {

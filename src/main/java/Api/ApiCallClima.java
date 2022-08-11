@@ -10,7 +10,7 @@ import java.util.*;
 
 public class ApiCallClima {
     String TOKEN = "25db60cfe504151dd2df40a6e21061e6";
-    String PARAMETRO = "London";
+    String PARAMETRO = "";
 
     public void setParametro(String city){
         this.PARAMETRO = city;

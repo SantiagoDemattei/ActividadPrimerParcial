@@ -72,20 +72,6 @@ public class Usuario {
 
     //METODOS
 
-    /*
-    public void cargarVueloNuevo(String numVuelo, String puertaEmbarque) throws Exception{
-
-        if(prototipo.esNacional()) {
-            VueloNacional vueloClonado = (VueloNacional) this.getPrototipo().clonar();
-            setearDatosVueloClonado(vueloClonado, numVuelo, puertaEmbarque);
-        }
-        else{
-            VueloInternacionalAdapter vueloClonado = (VueloInternacionalAdapter) this.getPrototipo().clonar();
-            setearDatosVueloClonado(vueloClonado, numVuelo, puertaEmbarque);
-        }
-
-    }
-     */
 
     public void setearDatosVueloClonado(String numVuelo, String puertaEmbarque) throws Exception{
         RepoVuelosNuevo repo = RepoVuelosNuevo.getInstance();
@@ -113,6 +99,7 @@ public class Usuario {
         repo.cargarVuelo(vueloNuevo);
     }
     public void cargarDatosDeparture(Scanner sc4, Vuelo vueloNuevo){
+
         System.out.println("Ingrese aeropuerto de origen: ");
         vueloNuevo.getDeparture().setDeparture_airport(sc4.nextLine());
         System.out.println("Ingrese timezone de origen: ");

@@ -1,8 +1,7 @@
 package Consulta;
 
-import Dominio.Vuelo;
-
 import java.util.List;
+import Dominio.Vuelo;
 
 public class Busqueda {
     Consultar estrategia;

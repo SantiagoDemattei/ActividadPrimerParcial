@@ -15,7 +15,6 @@ public class Main {
         Integer option = -1;
         Scanner sc = new Scanner(System.in);
 
-
         while (option != 0) {
 
             System.out.println("Ingresa un numero segun la operacion a realizar \n " +

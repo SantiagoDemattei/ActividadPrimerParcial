@@ -1,9 +1,8 @@
 package Consulta;
 
-import Dominio.Vuelo;
-
 import java.util.ArrayList;
 import java.util.List;
+import Dominio.Vuelo;
 
 public class ConsultarPorAeropuertoDestino extends Consultar{
 

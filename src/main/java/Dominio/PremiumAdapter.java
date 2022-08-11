@@ -2,7 +2,7 @@ package Dominio;
 
 import java.util.ArrayList;
 
-public class PremiumAdapter implements Categoria {
+public class PremiumAdapter extends Categoria {
 
     private Premium catePremium = new Premium();
     Integer cantMax = null;

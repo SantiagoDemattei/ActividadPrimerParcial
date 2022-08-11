@@ -21,6 +21,10 @@ public class Vuelo implements Cloneable {
     JsonNode aircraftNode;
     Live live;
     JsonNode liveNode;
+    private Integer tanque;
+    private Estado estado;
+    private String comida;
+
 
     //CONSTRUCTOR VUELO
     public Vuelo(){
@@ -49,6 +53,8 @@ public class Vuelo implements Cloneable {
     public Flight getFlight(){return flight;}
     public Aircraft getAircraft(){return aircraft;}
     public Live getLive(){return live;}
+    public Integer getTanque(){return tanque;}
+    public Estado getEstado(){return estado;}
 
     //SETTERS
     public void setFlight_date(String f){this.flight_date = f;}
@@ -158,14 +164,25 @@ public class Vuelo implements Cloneable {
         }
     }
 
-    public String getCiudadDestino() throws Exception {
-        String codigoIata = getArrival().getArrival_iata().toUpperCase();
+    public String getCiudadOrigen() throws Exception {
+        String codigoIata = getDeparture().getDeparture_iata().toUpperCase();
         LectorExcel lector = LectorExcel.getInstance();
         final String yourDesktopPath = System.getProperty("user.dir") + "/src/main/java/Carga/";
         String ciudad = lector.findRows(yourDesktopPath + "codigosPaisesAeropuertos2.xlsx", codigoIata);
         return ciudad;
     }
 
+    public void setTanque(Integer valor){this.tanque = valor;}
+    public void setEstado(Estado e){this.estado = e;}
+    public void setComida(String com){this.comida = com;}
+
+    public void cargarTanque(Integer valor){
+        if(this.tanque + valor <= 1000){
+            this.tanque += valor;
+        } else {
+            this.tanque = 1000;
+        }
+    }
     /*
     TRADUCCION INGLES ESPAÑOL
      Locale outLocale = Locale.forLanguageTag("en-US");
