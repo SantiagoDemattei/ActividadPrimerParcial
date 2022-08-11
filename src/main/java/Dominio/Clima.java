@@ -48,9 +48,4 @@ public class Clima {
         return temp - 273.15f;
     }
 
-
-
-
-
-
 }

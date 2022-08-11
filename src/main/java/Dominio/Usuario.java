@@ -98,6 +98,8 @@ public class Usuario {
         this.cargarDatosAircraft(sc4, vueloNuevo);
         repo.cargarVuelo(vueloNuevo);
     }
+
+
     public void cargarDatosDeparture(Scanner sc4, Vuelo vueloNuevo){
 
         System.out.println("Ingrese aeropuerto de origen: ");
