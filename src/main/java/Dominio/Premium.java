@@ -9,9 +9,8 @@ public class Premium {
     public void consultarVuelos (Usuario user) throws Exception {
         List<Vuelo> vuelos;
         vuelos = user.getBusqueda().buscarVuelos();
-        //user.setVuelosFiltrados(vuelo);
         if(vuelos.size() == 0){
-            System.out.println("La solicitud ingresada no es compatible con los vuelos de este sistema. Por favor intentelo de nuevo!");
+            UserService.mostrarMensajeDeError("La solicitud ingresada no es compatible con los vuelos de este sistema. Por favor intentelo de nuevo!");
         }
         else{
             UserService.mostrarVuelosFiltrados(vuelos);
@@ -23,10 +22,7 @@ public class Premium {
             return true;
         }
         else{
-           // user.setVuelosFiltrados(new ArrayList<>());
             return false;
         }
-
     }
-
 }

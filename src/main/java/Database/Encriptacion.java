@@ -1,11 +1,6 @@
 package Database;
 
-//importar random
-import java.util.Random;
-import java.security.spec.KeySpec;
 import java.util.Base64;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
 
 public class Encriptacion {
 

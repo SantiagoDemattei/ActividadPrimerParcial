@@ -5,6 +5,7 @@ import Dominio.Vuelo;
 import java.util.List;
 
 public class ConsultarPorAerolinea extends Consultar{
+
     public List<Vuelo> filtrar(Busqueda b) throws Exception {
         List<Vuelo> vuelos;
         List<Vuelo> vuelosFiltrados;

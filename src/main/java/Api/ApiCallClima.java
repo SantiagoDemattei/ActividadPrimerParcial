@@ -26,8 +26,6 @@ public class ApiCallClima {
                 .header("Content-Type", "application/json")
                 .get();
 
-        //int Status = response.getStatus();
-        //System.out.println("Status: " + Status); // status
         String responseBody = response.readEntity(String.class); // json entero
         JsonNode jsonNode = mapper.readTree(responseBody); // lo convertimos a jsonNode
         System.out.println("response = " + responseBody);
@@ -35,8 +33,6 @@ public class ApiCallClima {
         Float temperatura;
         jsonNode = mapper.readTree(clima.getMain());
         temperatura = clima.getTemp(jsonNode);
-        //System.out.println("temperatura en Kelvin: " + temperatura);
-        //System.out.println("temperatura en Celsius: " + clima.conversorKelvinCelsius(temperatura));
         return clima.conversorKelvinCelsius(temperatura);
     }
 }

@@ -27,7 +27,6 @@ public class UsuarioDb {
         ResultSet rs = stmt.getGeneratedKeys();
         if (rs.next()) {
             generatedKey = rs.getInt(1);
-            System.out.println("El id del usuario es: " + generatedKey);
             user.setId(generatedKey);
         }
 
@@ -93,7 +92,7 @@ public class UsuarioDb {
         Connection conn = Init.initDb();
         PreparedStatement stmt = null;
         try {
-            stmt = conn.prepareStatement("UPDATE usuario SET Nombre = ?, Apellido = ?, Mail = ?, Contraseña = ?, PaisOrigen = ?, PagaMembresia = ? WHERE Id = ?");
+            stmt = conn.prepareStatement("UPDATE usuario SET Nombre = ?, Apellido = ?, Mail = ?, Contraseña = ?, PagaMembresia = ? WHERE Id = ?");
             stmt.setString(1, u.getNombre());
             stmt.setString(2, u.getApellido());
             stmt.setString(3, u.getMail());
@@ -101,9 +100,8 @@ public class UsuarioDb {
             String contraseniaEncriptada = enc.encriptacion(u.getPassword());
             stmt.setString(4, contraseniaEncriptada);
 
-            stmt.setString(5, u.getPaisOrigen());
-            stmt.setBoolean(6, u.getPagaMembresia());
-            stmt.setInt(7, u.getId());
+            stmt.setBoolean(5, u.getPagaMembresia());
+            stmt.setInt(6, u.getId());
             stmt.executeUpdate();
 
         } catch (SQLException e) {

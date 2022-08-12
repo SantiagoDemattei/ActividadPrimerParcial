@@ -21,7 +21,7 @@ public class UserService {
         System.out.println("\nIngrese email: ");
         String mail = console.nextLine();
         if(buscarMailEnDb(mail)){
-            System.out.println("\nEl email ya existe, intente con otro");
+            mostrarMensajeDeError("\nEl email ya existe, intente con otro");
             return registrarUser();
         }
         System.out.println("\nIngrese contrasena: ");
@@ -44,7 +44,7 @@ public class UserService {
         option = console.nextInt();
         console.nextLine();
         instanciarCategoria(option, user);
-
+        System.out.println();
         return user;
     }
 
@@ -65,8 +65,7 @@ public class UserService {
                     user.setCategoria(categoria);
                     return;
                 default:
-                    System.out.println("Categoria no valida");
-
+                    mostrarMensajeDeError("Categoria no valida");
             }
         }
     }
@@ -82,12 +81,15 @@ public class UserService {
     public static Usuario buscarLoginEnDb(String mail, String pass) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         Usuario user = UsuarioDb.buscarEnDb(mail);
         if(user == null){
-            System.out.println("No se ha encontrado el email ingresado");
+            mostrarMensajeDeError("\nNo se ha encontrado el email ingresado\n");
         }else{
             if(UsuarioDb.coincideContrasenia(pass, user.getPassword())){
-                System.out.println("Bienvenido " + user.getNombre());
+                System.out.println();
+                UserService.clearScreen();
+                UserService.mostrarMensajeConsulta("Bienvenido/a " + user.getNombre());
             }else{
-                System.out.println("Contraseña incorrecta");
+                UserService.mostrarMensajeDeError("\nContraseña incorrecta\n");
+                System.out.println();
                 user = null;
             }
         }
@@ -99,21 +101,22 @@ public class UserService {
         Scanner sc = new Scanner(System.in);
         Scanner sc2 = new Scanner(System.in);
         while (option != "quit") {
+            Boolean bandera = true;
             System.out.println("Ingrese la forma de busqueda: A: aerolinea, D: destino, F: fecha, S: salir");
             option = sc.nextLine();
             switch (option) {
                 case "S":
                     System.out.println("Fin busqueda");
                     option = "quit";
+                    bandera = false;
                     break;
                 case "A":
                     ConsultarPorAerolinea consultaA = new ConsultarPorAerolinea();
                     System.out.println("Ingrese la aerolinea: ");
                     String aerolinea = sc2.nextLine();
                     user.setBusqueda(consultaA, null, null, aerolinea);
-                    System.out.println("Buscando los vuelos que pertenecen a la aerolinea: " + aerolinea);
-                    user.getCategoria().consultarVueloExistente(user);
-
+                    System.out.println();
+                    UserService.mostrarMensajeAccion("Buscando los vuelos que pertenecen a la aerolinea: " + aerolinea);
                     if(user.getCategoria().getClass().getSimpleName().equals("PremiumAdapter") && !user.getPagaMembresia()){
                         option = "quit";
                     }
@@ -121,11 +124,6 @@ public class UserService {
                     if(!user.getCategoria().getClass().getSimpleName().equals("PremiumAdapter")){
                         option = "quit";
                     }
-                    // if(user.getVuelosFiltrados().size() == 0){
-                    //   break;
-                    //}
-                    //mostrarVuelosFiltrados(user);
-                    //System.out.println();
                     break;
                 case "D":
                     ConsultarPorAeropuertoDestino consultaD = new ConsultarPorAeropuertoDestino();
@@ -142,10 +140,6 @@ public class UserService {
                     if(!user.getCategoria().getClass().getSimpleName().equals("PremiumAdapter")){
                         option = "quit";
                     }
-                  //  if(user.getVuelosFiltrados().size() == 0){
-                    //    break;
-                    //}
-                    //mostrarVuelosFiltrados(user);
                     break;
                 case "F":
                     ConsultarPorFecha consultaF = new ConsultarPorFecha();
@@ -162,14 +156,13 @@ public class UserService {
                     if(!user.getCategoria().getClass().getSimpleName().equals("PremiumAdapter")){
                         option = "quit";
                     }
-                    //if(user.getVuelosFiltrados().size() == 0){
-                      //  break;
-                    //}
-                    //mostrarVuelosFiltrados(user);
                     break;
                 default:
                     System.out.println("Opcion invalida");
                     break;
+            }
+            if(bandera){
+                user.getCategoria().consultarVueloExistente(user);
             }
         }
     }
@@ -207,11 +200,19 @@ public class UserService {
                 System.out.println(vuelo.getAircraft().getAircraft_registration() + " " + vuelo.getAircraft().getAircraft_iata() + " " + vuelo.getAircraft().getAircraft_icao() + " " + vuelo.getAircraft().getAircraft_icao24());
             }
 
-            if(vuelo.getLive() != null) {
-                System.out.println("LIVE: ");
-                System.out.println(vuelo.getLive().getLive_updated() + " " + vuelo.getLive().getLive_latitude() + " " + vuelo.getLive().getLive_longitude() + " " + vuelo.getLive().getLive_altitude() + " " + vuelo.getLive().getLive_direction() + " " + vuelo.getLive().getLive_speed_horizontal() + " " + vuelo.getLive().getLive_speed_vertical() + " " + vuelo.getLive().getLive_is_ground());
+            System.out.println("\nESTADO: " + vuelo.getEstado().getClass().getSimpleName());
+
+            if(vuelo.getComida() != null) {
+                System.out.println("\nCOMIDA: " + vuelo.getComida());
             }
-            System.out.println();
+            else
+            {
+                System.out.println("\nCOMIDA: No dispone.");
+            }
+
+            System.out.println("\nTANQUE: " + vuelo.getTanque() + " litros. ");
+
+            System.out.println("--------------------------------------------------------------------------------------------------------");
         }
 
     }
@@ -245,6 +246,7 @@ public class UserService {
                 String numero = sc5.nextLine();
                 System.out.println("Seleccione la puerta de embarque del vuelo nuevo: ");
                 String puerta = sc5.nextLine();
+                System.out.println();
                 user.setPrototipo(vuelo);
                 user.setearDatosVueloClonado(numero, puerta);
             }
@@ -254,7 +256,7 @@ public class UserService {
     public static Integer mostrarMenuPremium(Usuario user, Scanner sc) throws Exception {
         Integer option = -1;
         mostrarMenuIntermedio(user, sc);
-        System.out.println(" 4. Pagar");
+        System.out.println(" 6. Pagar");
         option =  sc.nextInt();
         mostrarOpciones(user, option, true);
         return option;
@@ -264,27 +266,32 @@ public class UserService {
         System.out.println("Ingresa un numero segun la operacion a realizar \n " +
                 "0. Salir\n " +
                 "1. Consultar vuelos \n " +
-                "2. Cargar nuevo vuelo ");
+                "2. Cargar nuevo vuelo \n " +
+                "3. Mostrar menus cargados en el sistema \n" +
+                "4. Cargar tanque del avion de un vuelo cargado");
     }
     public static void mostrarMenuIntermedio(Usuario user, Scanner sc) throws Exception {
         System.out.println("Ingresa un numero segun la operacion a realizar \n " +
                 "0. Salir\n " +
                 "1. Consultar vuelos \n " +
                 "2. Cargar nuevo vuelo \n" +
-                " 3. Controlar temperatura para despegue de los vuelos cargados ");
+                "3. Mostrar menus cargados en el sistema \n" +
+                "4. Cargar tanque del avion de un vuelo cargado\n" +
+                "5. Controlar temperatura para el despegue de los vuelos cargados ");
     }
 
     public static void mostrarOpciones(Usuario user, Integer option, Boolean esPremium) throws Exception {
         switch (option) {
             case 0:
-                System.out.println("Cerrando Sesion...");
+                mostrarMensajeAccion("Cerrando Sesion...");
+                clearScreen();
                 break;
             case 1:
-                System.out.println("Consultando vuelos...");
+                mostrarMensajeAccion("Consultando vuelos...");
                 menuConsultarVuelo(user);
                 break;
             case 2:
-                System.out.println("Cargando nuevo vuelo...");
+                mostrarMensajeAccion("Cargando nuevo vuelo...");
                 menuCargarVuelo(user);
                 break;
             case 3:

@@ -55,6 +55,7 @@ public class Vuelo implements Cloneable {
     public Live getLive(){return live;}
     public Integer getTanque(){return tanque;}
     public Estado getEstado(){return estado;}
+    public String getComida(){return comida;}
 
     //SETTERS
     public void setFlight_date(String f){this.flight_date = f;}
@@ -183,15 +184,9 @@ public class Vuelo implements Cloneable {
             this.tanque = 1000;
         }
     }
-    /*
-    TRADUCCION INGLES ESPAÑOL
-     Locale outLocale = Locale.forLanguageTag("en-US");
-        Locale inLocale = Locale.forLanguageTag("es-AR");
-        for (Locale l : Locale.getAvailableLocales()) {
-            if (l.getDisplayCountry(inLocale).equals(paisOrigen)) {
-                String paisEnIngles = l.getDisplayCountry(outLocale);
-            }
-        }
-    */
+
+    public void cargarCombustible(){
+        estado.cargarNafta();
+    }
 
 }

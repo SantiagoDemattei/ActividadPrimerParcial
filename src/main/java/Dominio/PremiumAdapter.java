@@ -18,8 +18,8 @@ public class PremiumAdapter extends Categoria {
             catePremium.consultarVuelos(user);
         }
         else{
-            //user.setVuelosFiltrados(new ArrayList<>());
-            System.out.println("No se ha efectuado el pago para acceder a esta funcionalidad");
+            UserService.mostrarMensajeDeError("\nNo se ha efectuado el pago para acceder a esta funcionalidad\n");
+            System.out.println();
         }
     }
 }

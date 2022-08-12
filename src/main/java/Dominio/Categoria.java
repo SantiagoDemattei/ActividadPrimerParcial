@@ -18,7 +18,7 @@ public abstract class Categoria {
             vuelos = user.getBusqueda().buscarVuelos();
 
             if (vuelos.size() == 0) {
-                System.out.println("La solicitud ingresada no es compatible con los vuelos de este sistema.");
+                UserService.mostrarMensajeDeError("La solicitud ingresada no es compatible con los vuelos de este sistema.");
             }
             else{
                 UserService.mostrarVuelosFiltrados(vuelos);
@@ -27,10 +27,10 @@ public abstract class Categoria {
             UsuarioDb.actualizarCategoria(user.getCategoria());
 
         } else {
-            System.out.println("Se supero la cantidad maxima de consultas posibles! Hagase premium para mas consultas");
+            UserService.mostrarMensajeDeError("\nSe supero la cantidad maxima de consultas posibles! Hagase premium para mas consultas\n");
             Scanner sc = new Scanner(System.in);
             String opcion;
-            System.out.println("Desea cambiarse a premium?: (S/N)");
+            UserService.mostrarMensajeConsulta("Desea cambiarse a premium?: (S/N)");
             opcion = sc.nextLine();
             switch (opcion) {
                 case "S":
@@ -39,9 +39,10 @@ public abstract class Categoria {
                 case "N":
                     break;
                 default:
-                    System.out.println("Opcion invalida");
+                    UserService.mostrarMensajeDeError("Opcion invalida");
                     break;
             }
+            System.out.println();
         }
     }
     public static void cambiarAPremium (Usuario user) throws Exception{

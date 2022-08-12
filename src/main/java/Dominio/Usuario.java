@@ -16,7 +16,7 @@ public class Usuario {
     //private List<Vuelo> vuelosFiltrados;
     private Busqueda busqueda;
     private Vuelo prototipo;
-    private String password; //TODO: VER LA CONTRA
+    private String password;
     private Categoria categoria;
     private Boolean pagaMembresia;
 

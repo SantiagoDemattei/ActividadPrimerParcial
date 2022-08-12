@@ -27,6 +27,7 @@ public class Main {
             switch (option) {
                 case 0:
                     System.out.println("Saliendo...");
+                    UserService.clearScreen();
              break;
                 case 1:
                     System.out.println("Registrando...");
@@ -63,7 +64,6 @@ public class Main {
                         }
 
                         }
-
                     break;
                 default:
                     System.out.println("Opcion invalida");

@@ -1,6 +1,8 @@
 package Carga;
 import Api.ApiCallClima;
 import Dominio.*;
+
+import javax.jws.soap.SOAPBinding;
 import java.util.*;
 
 public class RepoVuelosNuevo {
@@ -52,8 +54,7 @@ public class RepoVuelosNuevo {
             }
         }
         else {
-            System.out.println("No hay vuelos para controlar");
+            UserService.mostrarMensajeDeError("No hay vuelos para controlar");
         }
     }
-
 }
