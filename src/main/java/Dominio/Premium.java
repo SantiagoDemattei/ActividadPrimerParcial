@@ -1,7 +1,5 @@
 package Dominio;
-import Dominio.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Premium {
@@ -13,7 +11,7 @@ public class Premium {
             UserService.mostrarMensajeDeError("La solicitud ingresada no es compatible con los vuelos de este sistema. Por favor intentelo de nuevo!");
         }
         else{
-            UserService.mostrarVuelosFiltrados(vuelos);
+            UserService.mostrarListadoVuelos(vuelos);
         }
     }
 

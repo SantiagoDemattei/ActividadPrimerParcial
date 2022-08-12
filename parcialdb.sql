@@ -12,7 +12,6 @@ CREATE TABLE IF NOT EXISTS usuario (
                            `Apellido` varchar(255) NOT NULL,
                            `Mail` varchar(255) NOT NULL,
                            `Contraseña` varchar(255) NOT NULL,
-                           `PaisOrigen` varchar(255) NOT NULL,
                            `Id` INT NOT NULL,
                            `Categoria` INT NOT NULL,
                            `PagaMembresia` bool NOT NULL,

@@ -9,7 +9,7 @@ import javax.ws.rs.core.Response;
 import java.util.*;
 
 public class ApiCallVuelos {
-    String TOKEN = "c2553274269dc42f5c72309039eeb5b3";
+    String TOKEN = "7d19a5813d67e8defabbe4bea7ff6c5f";
     String PARAMETRO = "flights";
 
     public List<Vuelo> consultarVuelos() throws Exception {
@@ -35,12 +35,10 @@ public class ApiCallVuelos {
                     .get();
 
             int Status = response.getStatus();
-            //System.out.println("Status: " + Status);
             String responseBody = response.readEntity(String.class);
 
             if (Status == 200) {
                 responseBody = responseBody.substring(72 + inc);
-                //System.out.println("response = " + responseBody);
 
                 vuelos = mapper.readValue(responseBody, Vuelo[].class);
                 for(int j = 0 ; j < vuelos.length; j++){
@@ -49,11 +47,9 @@ public class ApiCallVuelos {
                     }
                 }
             } else {
-                System.out.println("Error response = " + responseBody);
-                throw new Exception("Error en la llamada a la API");
+                UserService.mostrarMensajeDeError("Error response = " + responseBody + "\n");
             }
         }
-        UserService.mostrarVuelosFiltrados(vuelosTotales);
         return vuelosTotales;
     }
 

@@ -21,7 +21,7 @@ public abstract class Categoria {
                 UserService.mostrarMensajeDeError("La solicitud ingresada no es compatible con los vuelos de este sistema.");
             }
             else{
-                UserService.mostrarVuelosFiltrados(vuelos);
+                UserService.mostrarListadoVuelos(vuelos);
             }
             cantMax--;
             UsuarioDb.actualizarCategoria(user.getCategoria());

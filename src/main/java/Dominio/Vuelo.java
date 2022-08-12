@@ -34,6 +34,10 @@ public class Vuelo implements Cloneable {
         this.flight = new Flight();
         this.aircraft = new Aircraft();
         this.live = new Live();
+        this.tanque = 1000;
+        this.estado = new AptoParaDespegar();
+        this.estado.setVuelo(this);
+        this.comida = "Arroz con pollo";
     }
     public Vuelo clonar(){
         Vuelo vuelo = null;

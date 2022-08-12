@@ -38,7 +38,7 @@ public class Main {
                 case 2:
                     Scanner sc3 = new Scanner(System.in);
                     Integer option3 = -1;
-                    System.out.println("Iniciando sesion...");
+                    UserService.mostrarMensajeAccion("Iniciando sesion...");
                     System.out.println("\nIngrese email: ");
                     String mail = sc3.nextLine();
 
@@ -66,7 +66,7 @@ public class Main {
                         }
                     break;
                 default:
-                    System.out.println("Opcion invalida");
+                    UserService.mostrarMensajeDeError("Opcion invalida\n");
                     break;
             }
         }

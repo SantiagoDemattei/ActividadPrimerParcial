@@ -24,7 +24,6 @@ public class RepoVuelosNuevo {
 
     public void cargarVuelo(Vuelo v) throws Exception {
         vuelosNuevos.add(v);
-        UserService.mostrarVuelosFiltrados(vuelosNuevos);
     }
 
     public List<Vuelo> getVuelosNuevos() {return vuelosNuevos;}
@@ -40,16 +39,19 @@ public class RepoVuelosNuevo {
                     api.setParametro(ciudadOrigen);
                     Float temp = api.consultarClima();
                     if (!(temp > 0 && temp < 30)) {
-                        System.out.println("El vuelo con destino al aeropuerto: " + vuelo.getArrival().getArrival_airport() + "queda suspendido por temperatura actual de: " + temp + "grados,  fuera del rango permitido (0 a 30 grados Celsius) para el despegue");
+                        String mensaje = "El vuelo con destino al aeropuerto: " + vuelo.getArrival().getArrival_airport() + " queda suspendido por temperatura actual de: " + temp + " grados,  fuera del rango permitido (0 a 30 grados Celsius) para el despegue\n";
+                        UserService.mostrarMensajeDeError(mensaje);
                         vuelosNuevos.remove(vuelo);
                     }
                     else{
-                        System.out.println("La temperatura actual es de" + temp + " grados Celsius y se encuentra dentro del rango permitido (0 a 30 grados Celsius). DESPEGUE ACEPTADO");
+                        String mensaje = "La temperatura actual es de " + temp + " grados Celsius y se encuentra dentro del rango permitido (0 a 30 grados Celsius). DESPEGUE ACEPTADO\n";
+                        UserService.mostrarMensajeConsulta(mensaje);
                     }
                     Thread.sleep(500);
                 }
                 else{
-                    System.out.println("El vuelo no está apto para despegar. No se puede controlar la temperatura");
+                    String mensaje = "El vuelo numero " + vuelo.getFlight().getFlight_number() + " no está apto para despegar. No se puede controlar la temperatura\n";
+                    UserService.mostrarMensajeDeError(mensaje);
                 }
             }
         }
