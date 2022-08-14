@@ -288,7 +288,8 @@ public class UserService {
                     user.setPrototipo(vuelo);
                     user.setearDatosVueloClonado(numero, puerta);
                 } catch (Exception e) {
-                    UserService.mostrarMensajeDeError("\nId incorrecto\n");
+                    e.printStackTrace();
+                //    UserService.mostrarMensajeDeError("\nId incorrecto\n");
                 }
             }
 

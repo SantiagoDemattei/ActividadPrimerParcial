@@ -1,6 +1,9 @@
 package Dominio;
 
 public class NoAptoParaDespegar extends Estado {
+
+    public String name = "NoAptoParaDespegar";
+
     public void cargarNafta(){
         this.vuelo.cargarTanque(300);
         this.chequearEstado();
@@ -14,4 +17,5 @@ public class NoAptoParaDespegar extends Estado {
             this.vuelo.setComida("Arroz con pollo");
         }
     }
+
 }

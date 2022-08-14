@@ -1,5 +1,6 @@
 package Carga;
 import Api.ApiCallClima;
+import Database.VueloDb;
 import Dominio.*;
 
 import javax.jws.soap.SOAPBinding;
@@ -24,6 +25,7 @@ public class RepoVuelosNuevo {
 
     public void cargarVuelo(Vuelo v) throws Exception {
         vuelosNuevos.add(v);
+        VueloDb.insertarVuelo(v);
     }
 
     public List<Vuelo> getVuelosNuevos() {return vuelosNuevos;}

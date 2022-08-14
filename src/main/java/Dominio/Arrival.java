@@ -1,6 +1,7 @@
 package Dominio;
 
 public class Arrival {
+    private Integer id;
     private String arrival_airport;
     private String arrival_timezone;
     private String arrival_iata;
@@ -15,6 +16,7 @@ public class Arrival {
     private String arrival_estimated_runway;
     private String arrival_actual_runway;
 
+    public Integer getArrival_id(){return id;}
     public String getArrival_airport(){return arrival_airport;}
     public String getArrival_timezone(){return arrival_timezone;}
     public String getArrival_iata(){return arrival_iata;}
@@ -29,6 +31,7 @@ public class Arrival {
     public String getArrival_estimated_runway(){return arrival_estimated_runway;}
     public String getArrival_actual_runway(){return arrival_actual_runway;}
 
+    public void setArrival_id(Integer id){this.id = id;}
     public void setArrival_airport(String a){this.arrival_airport = a;}
     public void setArrival_timezone(String a){this.arrival_timezone = a;}
     public void setArrival_iata(String a){this.arrival_iata = a;}

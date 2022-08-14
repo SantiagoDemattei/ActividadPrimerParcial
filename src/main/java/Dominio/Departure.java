@@ -1,6 +1,7 @@
 package Dominio;
 
 public class Departure {
+    private Integer id;
     private String departure_airport;
     private String departure_timezone;
     private String departure_iata;
@@ -14,7 +15,7 @@ public class Departure {
     private String departure_estimated_runway;
     private String departure_actual_runway;
 
-
+    public Integer getDeparture_id(){return id;}
     public String getDeparture_airport(){return departure_airport;}
     public String getDeparture_timezone(){return departure_timezone;}
     public String getDeparture_iata(){return departure_iata;}
@@ -28,6 +29,7 @@ public class Departure {
     public String getDeparture_estimated_runway(){return departure_estimated_runway;}
     public String getDeparture_actual_runway(){return departure_actual_runway;}
 
+    public void setDeparture_id(Integer id){this.id = id;}
     public void setDeparture_airport(String d){this.departure_airport = d;}
     public void setDeparture_timezone(String d){this.departure_timezone = d;}
     public void setDeparture_iata(String d){this.departure_iata = d;}

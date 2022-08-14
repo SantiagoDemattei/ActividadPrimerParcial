@@ -7,6 +7,7 @@ import Carga.*;
 import java.util.Locale;
 
 public class Vuelo implements Cloneable {
+    private Integer id;
     private String flight_date;
     private String flight_status;
     Departure departure;
@@ -53,6 +54,7 @@ public class Vuelo implements Cloneable {
         return vuelo;
     }
     //GETTERS
+    public Integer getId() {return id;}
     public String getFlight_date(){return flight_date;}
     public String getFlight_status(){return flight_status;}
     public Departure getDeparture(){return departure;}
@@ -66,6 +68,7 @@ public class Vuelo implements Cloneable {
     public String getComida(){return comida;}
 
     //SETTERS
+    public void setId(Integer id){this.id = id;}
     public void setFlight_date(String f){this.flight_date = f;}
     public void setFlight_status(String f){this.flight_status = f;}
     public void setDeparture(JsonNode n) throws JsonProcessingException {
