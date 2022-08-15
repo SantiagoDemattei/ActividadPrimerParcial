@@ -264,11 +264,8 @@ public class VueloDb {
             stmt.setInt(3, v.getDeparture().getDeparture_id());
             stmt.setInt(4, v.getFlight().getFlight_id());
             stmt.setInt(5, v.getAircraft().getAircraft_id());
-            int deleted = stmt.executeUpdate();;
-            if(deleted > 0)
-                UserService.mostrarMensajeAccion("Vuelo borrado");
-            else
-                UserService.mostrarMensajeAccion("Vuelo no encontrado");
+            stmt.executeUpdate();;
+
         }
         catch (SQLException e) {
             e.printStackTrace();

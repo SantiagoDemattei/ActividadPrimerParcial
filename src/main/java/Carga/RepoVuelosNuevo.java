@@ -40,14 +40,13 @@ public class RepoVuelosNuevo {
             Iterator<Vuelo> itr = vuelosNuevos.iterator();
             while(itr.hasNext()){
                 Vuelo vuelo = itr.next();
-                System.out.println(vuelosNuevos.size());
                 if(vuelo.getEstado().getClass().getSimpleName().equals("AptoParaDespegar")){
                     String ciudadOrigen = vuelo.getCiudadOrigen();
                     ApiCallClima api = new ApiCallClima();
                     api.setParametro(ciudadOrigen);
                     Float temp = api.consultarClima();
                     if (!(temp > 0 && temp < 30)) {
-                        String mensaje = "El vuelo con destino al aeropuerto: " + vuelo.getArrival().getArrival_airport() + " queda suspendido por temperatura actual de: " + temp + " grados, fuera del rango permitido (0 a 30 grados Celsius) para el despegue\n";
+                        String mensaje = "El vuelo numero " + vuelo.getFlight().getFlight_number() + " con aeropuerto de origen: " + vuelo.getDeparture().getDeparture_airport() + " queda suspendido por temperatura actual de: " + temp + " grados, fuera del rango permitido (0 a 30 grados Celsius) para el despegue\n";
                         UserService.mostrarMensajeDeError(mensaje);
                         itr.remove();
                         VueloDb.borrarVuelo(vuelo);

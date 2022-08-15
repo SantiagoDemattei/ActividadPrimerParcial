@@ -486,6 +486,7 @@ public class UserService {
             mostrarMensajeConsulta("Seleccione el id del vuelo al que desea cargarle el tanque");
             Scanner sc = new Scanner(System.in);
             Integer i = sc.nextInt();
+
             RepoVuelosNuevo repo = RepoVuelosNuevo.getInstance();
             List<Vuelo> vuelos = repo.getVuelosNuevos();
             try {
@@ -493,6 +494,7 @@ public class UserService {
                 vuelo.cargarCombustible();
             } catch (Exception e) {
                 mostrarMensajeDeError("Id incorrecto");
+                e.printStackTrace();
             }
         }
     }
