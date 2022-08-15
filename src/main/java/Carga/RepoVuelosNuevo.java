@@ -4,6 +4,7 @@ import Database.VueloDb;
 import Dominio.*;
 
 import javax.jws.soap.SOAPBinding;
+import java.sql.SQLException;
 import java.util.*;
 
 public class RepoVuelosNuevo {
@@ -23,6 +24,10 @@ public class RepoVuelosNuevo {
         }
     }
 
+    public void cargarRepo() throws SQLException {
+        vuelosNuevos = VueloDb.obtenerVuelosDb();
+    }
+
     public void cargarVuelo(Vuelo v) throws Exception {
         vuelosNuevos.add(v);
         VueloDb.insertarVuelo(v);
@@ -32,16 +37,17 @@ public class RepoVuelosNuevo {
 
     public static void controlarTemperaturaParaDespegue() throws Exception{
         if(vuelosNuevos.size() != 0) {
-            for (int i = 0; i < vuelosNuevos.size(); i++) {
-                Vuelo vuelo = vuelosNuevos.get(i);
-
+            Iterator<Vuelo> itr = vuelosNuevos.iterator();
+            while(itr.hasNext()){
+                Vuelo vuelo = itr.next();
+                System.out.println(vuelosNuevos.size());
                 if(vuelo.getEstado().getClass().getSimpleName().equals("AptoParaDespegar")){
                     String ciudadOrigen = vuelo.getCiudadOrigen();
                     ApiCallClima api = new ApiCallClima();
                     api.setParametro(ciudadOrigen);
                     Float temp = api.consultarClima();
                     if (!(temp > 0 && temp < 30)) {
-                        String mensaje = "El vuelo con destino al aeropuerto: " + vuelo.getArrival().getArrival_airport() + " queda suspendido por temperatura actual de: " + temp + " grados,  fuera del rango permitido (0 a 30 grados Celsius) para el despegue\n";
+                        String mensaje = "El vuelo con destino al aeropuerto: " + vuelo.getArrival().getArrival_airport() + " queda suspendido por temperatura actual de: " + temp + " grados, fuera del rango permitido (0 a 30 grados Celsius) para el despegue\n";
                         UserService.mostrarMensajeDeError(mensaje);
                         vuelosNuevos.remove(vuelo);
                     }

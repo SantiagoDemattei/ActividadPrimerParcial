@@ -9,49 +9,56 @@ import javax.ws.rs.core.Response;
 import java.util.*;
 
 public class ApiCallVuelos {
-    String TOKEN = "11bc7c5d9e630f2032b4f232d6b795c1";
+    String TOKEN = "103a89bbd91fc68eaff91bea6f3913ff";
     String PARAMETRO = "flights";
 
     public List<Vuelo> consultarVuelos() throws Exception {
         List<Vuelo> vuelosTotales = new ArrayList<>();
+        try {
+            for (int i = 0; i < 8; i++) {
 
-        for(int i = 0; i < 8; i++) {
+                Random r = new Random();
+                int low = 10;
+                int high = 100;
+                int result = r.nextInt(high - low) + low;
 
-            Random r = new Random();
-            int low = 10;
-            int high = 100;
-            int result = r.nextInt(high-low) + low;
+                Vuelo[] vuelos;
+                String incremento = String.valueOf(result);
+                Integer inc = incremento.length();
 
-            Vuelo[] vuelos;
-            String incremento = String.valueOf(result);
-            Integer inc = incremento.length();
+                WebClient client = WebClient.create("http://api.aviationstack.com/v1/" + PARAMETRO + "?offset=" + result + "&access_key=" + TOKEN);
+                ObjectMapper mapper = new ObjectMapper();
+                mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-            WebClient client = WebClient.create("http://api.aviationstack.com/v1/" + PARAMETRO + "?offset=" + result + "&access_key=" + TOKEN);
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                Response response = client
+                        .header("Content-Type", "application/json")
+                        .get();
 
-            Response response = client
-                    .header("Content-Type", "application/json")
-                    .get();
+                int Status = response.getStatus();
+                String responseBody = response.readEntity(String.class);
 
-            int Status = response.getStatus();
-            String responseBody = response.readEntity(String.class);
+                if (Status == 200) {
+                    responseBody = responseBody.substring(72 + inc);
 
-            if (Status == 200) {
-                responseBody = responseBody.substring(72 + inc);
-
-                vuelos = mapper.readValue(responseBody, Vuelo[].class);
-                for(int j = 0 ; j < vuelos.length; j++){
-                    if(!vueloYaExiste(vuelosTotales, vuelos[j])){
-                        vuelosTotales.add(vuelos[j]);
+                    vuelos = mapper.readValue(responseBody, Vuelo[].class);
+                    for (int j = 0; j < vuelos.length; j++) {
+                        if (!vueloYaExiste(vuelosTotales, vuelos[j])) {
+                            vuelosTotales.add(vuelos[j]);
+                        }
                     }
+                } else {
+                    UserService.mostrarMensajeDeError("Error response = " + responseBody + "\n");
                 }
-            } else {
-                UserService.mostrarMensajeDeError("Error response = " + responseBody + "\n");
             }
+            return vuelosTotales;
         }
-        return vuelosTotales;
+        catch (Exception e){
+            UserService.mostrarMensajeDeError("Error: " + e.getMessage() + "\n");
+            UserService.mostrarMensajeDeError("API CAIDA, CONTACTAR CON SOPORTE");
+            return vuelosTotales;
+        }
     }
+
 
     Boolean vueloYaExiste(List<Vuelo> vuelos, Vuelo vuelo) {
         for (int i = 0; i < vuelos.size(); i++) {

@@ -4,6 +4,8 @@ package Dominio;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import Carga.*;
+
+import java.sql.SQLException;
 import java.util.Locale;
 
 public class Vuelo implements Cloneable {
@@ -184,6 +186,11 @@ public class Vuelo implements Cloneable {
         return ciudad;
     }
 
+    public void setDeparture2(Departure d){this.departure = d;}
+    public void setArrival2(Arrival a){this.arrival = a;}
+    public void setAirline2(Airline a){this.airline = a;}
+    public void setFlight2(Flight f){this.flight = f;}
+    public void setAircraft2(Aircraft a){this.aircraft = a;}
     public void setTanque(Integer valor){this.tanque = valor;}
     public void setEstado(Estado e){this.estado = e;}
     public void setComida(String com){this.comida = com;}
@@ -196,7 +203,7 @@ public class Vuelo implements Cloneable {
         }
     }
 
-    public void cargarCombustible(){
+    public void cargarCombustible() throws SQLException {
         estado.cargarNafta();
     }
 

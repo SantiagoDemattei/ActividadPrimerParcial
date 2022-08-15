@@ -71,11 +71,11 @@ CREATE TABLE IF NOT EXISTS vuelo(
     `Tanque` INT NOT NULL,
     `Estado` varchar(50) NOT NULL,
     `Comida` varchar(50) ,
-    foreign key (Departure) references departure(Id),
-    foreign key (Arrival) references arrival(Id),
-    foreign key (Flight) references flight(Id),
-    foreign key (Aircraft) references aircraft(Id),
-    foreign key (Airline) references airline(Id)
+    foreign key (Departure) references departure(Id) on delete cascade,
+    foreign key (Arrival) references arrival(Id) on delete cascade,
+    foreign key (Flight) references flight(Id) on delete cascade,
+    foreign key (Aircraft) references aircraft(Id) on delete cascade,
+    foreign key (Airline) references airline(Id) on delete cascade
 );
 
 CREATE TABLE IF NOT EXISTS categoria (
