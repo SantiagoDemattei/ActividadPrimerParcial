@@ -49,7 +49,8 @@ public class RepoVuelosNuevo {
                     if (!(temp > 0 && temp < 30)) {
                         String mensaje = "El vuelo con destino al aeropuerto: " + vuelo.getArrival().getArrival_airport() + " queda suspendido por temperatura actual de: " + temp + " grados, fuera del rango permitido (0 a 30 grados Celsius) para el despegue\n";
                         UserService.mostrarMensajeDeError(mensaje);
-                        vuelosNuevos.remove(vuelo);
+                        itr.remove();
+                        VueloDb.borrarVuelo(vuelo);
                     }
                     else{
                         String mensaje = "El aeropuerto de origen del vuelo numero " + vuelo.getFlight().getFlight_number()  + " es: " + vuelo.getDeparture().getDeparture_airport() + " y la temperatura actual es de " + temp + " grados Celsius. DESPEGUE ACEPTADO (La temperatura se encuentra dentro del rango (0 a 30 grados Celsius)\n";
@@ -67,4 +68,5 @@ public class RepoVuelosNuevo {
             UserService.mostrarMensajeDeError("No hay vuelos para controlar");
         }
     }
+
 }

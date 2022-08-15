@@ -15,15 +15,16 @@ public class Main {
     public static void main(String[] args) throws Exception {
         Integer option = -1;
         Scanner sc = new Scanner(System.in);
-
+        RepoVuelosNuevo repo = RepoVuelosNuevo.getInstance();
+        repo.cargarRepo();
         while (option != 0) {
-
             System.out.println("Ingresa un numero segun la operacion a realizar \n " +
                     "0. Salir\n " +
                     "1. Registrarse \n " +
                     "2. Iniciar sesion \n ");
 
             option = sc.nextInt();
+
 
             switch (option) {
                 case 0:
@@ -72,5 +73,4 @@ public class Main {
             }
         }
     }
-
 }

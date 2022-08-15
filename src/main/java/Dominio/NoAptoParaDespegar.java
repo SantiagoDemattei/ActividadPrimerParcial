@@ -1,5 +1,9 @@
 package Dominio;
 
+import Database.VueloDb;
+
+import java.sql.SQLException;
+
 public class NoAptoParaDespegar extends Estado {
 
     public String name = "NoAptoParaDespegar";
@@ -16,6 +20,7 @@ public class NoAptoParaDespegar extends Estado {
             e.setVuelo(this.vuelo);
             this.vuelo.setComida("Arroz con pollo");
         }
+        VueloDb.actualizarVuelo(this.vuelo);
     }
 
 }
