@@ -1,4 +1,4 @@
--- CREATE DATABASE parcialdb;
+CREATE DATABASE parcialdb;
 USE parcialdb;
 
 
@@ -61,15 +61,15 @@ CREATE TABLE IF NOT EXISTS airline(
 
 CREATE TABLE IF NOT EXISTS vuelo(
     `Id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `Flight_date` varchar(255) NOT NULL,
-    `Flight_status` varchar(45) NOT NULL,
-    `Departure` INT NOT NULL,
-    `Arrival` INT NOT NULL,
-    `Flight` INT NOT NULL,
-    `Aircraft` INT NOT NULL,
-    `Airline` INT NOT NULL,
-    `Tanque` INT NOT NULL,
-    `Estado` varchar(50) NOT NULL,
+    `Flight_date` varchar(255) NULL,
+    `Flight_status` varchar(45) NULL,
+    `Departure` INT NULL,
+    `Arrival` INT NULL,
+    `Flight` INT NULL,
+    `Aircraft` INT NULL,
+    `Airline` INT NULL,
+    `Tanque` INT NULL,
+    `Estado` varchar(50) NULL,
     `Comida` varchar(50) ,
     foreign key (Departure) references departure(Id) on delete cascade,
     foreign key (Arrival) references arrival(Id) on delete cascade,
