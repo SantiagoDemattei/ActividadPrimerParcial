@@ -301,6 +301,7 @@ public class VueloDb {
                 v.setFlight2(cargarFlight(conn, rs.getInt("Flight")));
                 v.setAircraft2(cargarAircraft(conn, rs.getInt("Aircraft")));
                 v.setAirline2(cargarAirline(conn, rs.getInt("Airline")));
+                date.setVuelo(v);
                 vuelos.add(v);
             }
         } catch (SQLException e) {
