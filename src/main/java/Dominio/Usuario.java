@@ -12,7 +12,6 @@ public class Usuario {
     private String nombre;
     private String apellido;
     private String mail;
-    //private List<Vuelo> vuelosFiltrados;
     private Busqueda busqueda;
     private Vuelo prototipo;
     private String password;
